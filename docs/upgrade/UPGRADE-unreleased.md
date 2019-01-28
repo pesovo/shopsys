@@ -60,6 +60,17 @@ There you can find links to upgrade notes for other versions too.
                 hidden: true
     ```
     - read the section about proxying the URL content subpaths via webserver domain [`docs/introduction/abstract-filesystem.md`](https://github.com/shopsys/shopsys/blob/master/docs/introduction/abstract-filesystem.md)
+- if you want to show availability of variants add these lines to `.table-variants` in `Product/detail.html.twig` [#771](https://github.com/shopsys/shopsys/pull/771)
+    ```
+        <th class="table-variants__cell">{{ 'Availability'|trans }}</th>
+    ```
+    ```
+       <td class="table-variants__cell">
+           {% if variant.calculatedAvailability %}
+               {{ variant.calculatedAvailability.name }}
+           {% endif %}
+       </td>
+    ```
 
 ### Configuration
  - use standard format for redis prefixes ([#928](https://github.com/shopsys/shopsys/pull/928))
