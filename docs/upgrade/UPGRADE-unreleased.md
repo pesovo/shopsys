@@ -18,7 +18,7 @@ There you can find links to upgrade notes for other versions too.
         -        $filepath = $file->getPathname();
         +        $filepath = TransformString::removeDriveLetterFromPath($file->getPathname());
         ```
-
+- *(low priority)* change all occurences of `->will($this->returnValue(` into `->willReturn(` in all `TestCase` tests ([#939](https://github.com/shopsys/shopsys/pull/939))
 - *(low priority)* reconfigure fm_elfinder to use main_filesystem ([#932](https://github.com/shopsys/shopsys/pull/932))
     - upgrade version of `helios-ag/fm-elfinder-bundle` to `^9.2` in `composer.json`
     - remove `barryvdh/elfinder-flysystem-driver": "^0.2"` from `composer.json`
