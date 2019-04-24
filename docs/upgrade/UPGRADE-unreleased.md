@@ -25,6 +25,11 @@ There you can find links to upgrade notes for other versions too.
         + $emMock->expects($this->once())->method('find')->willReturn($expectedObject);
         ```
     - remove unused dataProvider notation from Tests\ShopBundle\Functional\Twig\PriceExtensionTest:checkPriceFilter method
+        ```diff
+          /**
+        -   * @dataProvider priceFilterDataProvider
+            * @param mixed $input
+        ```
 - *(low priority)* reconfigure fm_elfinder to use main_filesystem ([#932](https://github.com/shopsys/shopsys/pull/932))
     - upgrade version of `helios-ag/fm-elfinder-bundle` to `^9.2` in `composer.json`
     - remove `barryvdh/elfinder-flysystem-driver": "^0.2"` from `composer.json`
