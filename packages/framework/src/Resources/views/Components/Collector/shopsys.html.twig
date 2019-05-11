@@ -1,0 +1,46 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        <img width="24" height="24" alt="Shopsys" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABj1BMVEUAAAAAmv8Am/8PAKEGXNkQAKEPAKAQAKAAnP8AABoMAJ4JAJQEcuYKAJ0LAJgIAJIAABQQAKIAmv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8PAKAPAKAAmv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8Amv8PAKAPAKAPAKARAKEAmv8Amv8Amv8Amv8Amv8Amv8PAKAPAKAPAKAPAKAAmv8Amv8Amv8Amv8Am/8PAKAPAKAPAKAPAKAPAKAAmv8Amv8Amv8Amv8PAKAPAKAAmv8Amv8Amv8Amv8PAKAPAKAPAKAAm/8Amv8Amv8Amv8PAKAAmv8Amv8PAKAPAKAPAKAPAKAPAKAPAKAPAKAAmv8Amv8Amv8PAKAPAKAPAKAPAKEPAKAPAKAPAKAAmv8Amv8Amv8PAKAPAKAPAKAPAKAPAKAPAKAAmv8Amv8Amv8Amv8PAKAPAKAQAKEAmv8Amv8Amv8QAKEAmv8PAKD///+MjKsXAAAAgnRSTlMAAAAAAAAAAAAAAAAAAAAAAAAPbEskBh/g+eOtVxAby/L8vEMDDwQEIjZamt/+63MILrdcAQIliOz4hC3J4zNJ1vdwASzI+5MOONfpPysNTO20Dcf8lAOO9k7GK6IKrMEUDCoCo9odTu9pA4beUGX1QE3wNebkT14OHAVoAwQp0GADGpN/PQAAAAFiS0dEhGLQWnEAAAAHdElNRQfiBBESAzXoQWbtAAAB+klEQVQ4y63SZ1fiUBAG4IwxA7rqrqIisffexR67gAp2sWJXxIaiWFl1Z/74JqGcgIcve/Z+y3mfO3fm5grCf15QYLEUFhVDRlpgLSGbXFpWno5ARWVVNZGtprYOvoWiWN+Q2djU3NLa1k4dnV2pQsLunt4+k1rF3j8wSEPDKULEkVFWxlA/yD4+QZNT05CUz8yyw+nCaCswN08LbkOnEnq0fBHjzcLSMq2sgiFf4/UNFyZ2gHeTtrbBHP1C9Oyww5irYlemvfis6NtnPjiM5nh0fIJaiVM6O48Dya/wReASdXx1fZNlEsxwS8G7eBOYfa9wSBf48Mjhpx8ogDtIzxqAF+vrW06uP8yh9wgK+Ps9xGF/nggfn/KXDr7kzw8Q83TxRxURXeTmvL1aX3TwTEE3CPjzKcyPD9ohl4EQK/fZiTu5C9KtOrDp1831lU/vMxK4YMWfHxNwfkanXrUWnhwfxSY9PGDe98WBd4/kXeN/QdeGg3c8GANm2N6iTS8Ycuc6r3lQSlzq6gotL0HiThadjqRcyAD3As3PxYS638GzM4ZcLTE9NUkT43Zd4JjCoyMoJj/VruEhGhzo14ipr7enO2l/VHR2UHtba0tzU2NmQ70kCqkL6mprbETVVZUV3597rNPyslLZRiXWNEB7hsVFhRZLQVrwr+sv2QFuh7zAG7wAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTgtMDQtMTdUMTg6MDM6NTMrMDI6MDCvNxJxAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE4LTA0LTE3VDE4OjAzOjUzKzAyOjAw3mqqzQAAAFd6VFh0UmF3IHByb2ZpbGUgdHlwZSBpcHRjAAB4nOPyDAhxVigoyk/LzEnlUgADIwsuYwsTIxNLkxQDEyBEgDTDZAMjs1Qgy9jUyMTMxBzEB8uASKBKLgDqFxF08kI1lQAAAABJRU5ErkJggg==" />
+        <span class="sf-toolbar-value">{{ collector.version }}</span>
+    {% endset %}
+    {% set text %}
+        <div class="sf-toolbar-info-group">
+            <div class="sf-toolbar-info-piece">
+                <b>Version</b>
+                <span>{{ collector.version }}</span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>Current domain</b>
+                <span>{{ collector.currentDomainName }}</span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>Locale</b>
+                <span class="sf-toolbar-status">{{ collector.currentDomainLocale }}</span>
+            </div>
+        </div>
+        <div class="sf-toolbar-info-group">
+            {% for domain in collector.domains %}
+                <div class="sf-toolbar-info-piece">
+                    <b>{{ domain.name }}</b>
+                    <span>
+                        {% if domain.id == collector.currentDomainId %}
+                            {{ domain.url }}
+                        {% else %}
+                            <a href="{{ domain.url }}">{{ domain.url }}</a>
+                        {% endif %}
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="sf-toolbar-info-group">
+            <div class="sf-toolbar-info-piece">
+                <b>Resources</b>
+                <span><a href="https://github.com/shopsys/shopsys/blob/master/docs/index.md" target="_blank" rel="help">Framework Documentation</a></span>
+            </div>
+        </div>
+    {% endset %}
+
+    {% include '@WebProfiler/Profiler/toolbar_item.html.twig' with {'link': false, additional_classes: 'sf-toolbar-block-right'} %}
+{% endblock %}

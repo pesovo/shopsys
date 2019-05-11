@@ -19,6 +19,11 @@ final class VersionUpgradeFileManipulator
     /**
      * @var string
      */
+    private const FRAMEWORK_VERSION_PATTEN = "/public const VERSION = '(.*)';/";
+
+    /**
+     * @var string
+     */
     private const FILE_CONTENT_INFORMATION_PATTERN = '#This guide contains instructions to upgrade from version .* to Unreleased#';
 
     /**
@@ -31,6 +36,22 @@ final class VersionUpgradeFileManipulator
         $content = $this->updateHeadline($version, $splFileInfo->getContents());
 
         return $this->updateFileContentInformation($version, $content);
+    }
+
+    /**
+     * @param \Symfony\Component\Finder\SplFileInfo $splFileInfo
+     * @param \PharIo\Version\Version $version
+     * @return string
+     */
+    public function updateFrameworkVersion(SplFileInfo $splFileInfo, Version $version): string
+    {
+        return Strings::replace(
+            $splFileInfo->getContents(),
+            self::FRAMEWORK_VERSION_PATTEN,
+            function ($match) use ($version) {
+                return str_replace(['dev-master'], $version->getVersionString(), $match[0]);
+            }
+        );
     }
 
     /**
