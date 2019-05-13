@@ -5,6 +5,6 @@ services:
         public: false
 
     Shopsys\ReadModelBundle\:
-        resource: '../../**/*{Facade,Factory,Repository}.php'
+        resource: '../../**/*{Extension,Facade,Factory,Repository}.php'
 
     Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacadeInterface: '@Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacade'

@@ -156,7 +156,7 @@ class ImageExtension extends Twig_Extension
     /**
      * @return string
      */
-    private function getEmptyImageUrl()
+    public function getEmptyImageUrl(): string
     {
         return $this->domain->getUrl() . $this->frontDesignImageUrlPrefix . static::NOIMAGE_FILENAME;
     }
@@ -191,7 +191,7 @@ class ImageExtension extends Twig_Extension
     /**
      * @param array $attributes
      */
-    private function preventDefault(array &$attributes)
+    public function preventDefault(array &$attributes): void
     {
         Utils::setArrayDefaultValue($attributes, 'type');
         Utils::setArrayDefaultValue($attributes, 'size');
@@ -205,7 +205,7 @@ class ImageExtension extends Twig_Extension
      * @param \Shopsys\FrameworkBundle\Component\Image\AdditionalImageData[] $additionalImagesData
      * @return string
      */
-    private function getImageHtmlByEntityName(array $attributes, $entityName, $additionalImagesData = [])
+    public function getImageHtmlByEntityName(array $attributes, $entityName, $additionalImagesData = []): string
     {
         $htmlAttributes = $attributes;
         unset($htmlAttributes['type'], $htmlAttributes['size']);
