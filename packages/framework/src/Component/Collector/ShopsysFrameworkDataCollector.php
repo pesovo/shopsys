@@ -10,21 +10,42 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
-final class ShopsysCollector extends DataCollector
+final class ShopsysFrameworkDataCollector extends DataCollector
 {
+    /**
+     * @var \Shopsys\FrameworkBundle\Component\Domain\Domain
+     */
+    protected $domain;
+
     /**
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
      */
     public function __construct(
         Domain $domain
     ) {
+        $this->domain = $domain;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function collect(Request $request, Response $response, \Exception $exception = null): void
+    {
         $this->data = [
             'version' => ShopsysFrameworkBundle::VERSION,
-            'domains' => $domain->getAll(),
-            'currentDomainId' => $domain->getId(),
-            'currentDomainName' => $domain->getName(),
-            'currentDomainLocale' => $domain->getLocale(),
+            'domains' => $this->domain->getAll(),
+            'currentDomainId' => $this->domain->getId(),
+            'currentDomainName' => $this->domain->getName(),
+            'currentDomainLocale' => $this->domain->getLocale(),
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function reset(): void
+    {
+        $this->data = [];
     }
 
     /**
@@ -70,22 +91,8 @@ final class ShopsysCollector extends DataCollector
     /**
      * {@inheritdoc}
      */
-    public function collect(Request $request, Response $response, \Exception $exception = null): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function reset(): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
-        return 'shopsys_core';
+        return 'shopsys_framework_core';
     }
 }

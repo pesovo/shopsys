@@ -13,7 +13,10 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class ShopsysFrameworkBundle extends Bundle
 {
-    public const VERSION = 'dev-master';
+    /**
+     * @var string
+     */
+    public const VERSION = '7.2.0-dev';
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container

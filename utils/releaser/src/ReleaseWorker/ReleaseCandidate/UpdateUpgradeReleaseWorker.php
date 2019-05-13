@@ -78,7 +78,6 @@ final class UpdateUpgradeReleaseWorker extends AbstractShopsysReleaseWorker
      */
     public function work(Version $version): void
     {
-        $this->updateFrameworkVersion($version);
         $this->updateUpgradeFileForMonorepo($version);
         $this->createUpgradeFileForNewVersionFromUnreleased($version);
         $this->createUpgradeFileForUnreleased($version);
@@ -143,19 +142,6 @@ final class UpdateUpgradeReleaseWorker extends AbstractShopsysReleaseWorker
         $upgradeFileInfo = new SmartFileInfo($upgradeFilePath);
 
         $newUpgradeContent = $this->generalUpgradeFileManipulator->updateLinks($upgradeFileInfo, $version);
-
-        FileSystem::write($upgradeFilePath, $newUpgradeContent);
-    }
-
-    /**
-     * @param \PharIo\Version\Version $version
-     */
-    private function updateFrameworkVersion(Version $version)
-    {
-        $upgradeFilePath = getcwd() . '/packages/framework/src/ShopsysFrameworkBundle.php';
-        $upgradeFileInfo = new SmartFileInfo($upgradeFilePath);
-
-        $newUpgradeContent = $this->versionUpgradeFileManipulator->updateFrameworkVersion($upgradeFileInfo, $version);
 
         FileSystem::write($upgradeFilePath, $newUpgradeContent);
     }
