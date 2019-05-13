@@ -369,4 +369,16 @@ class ImageFacade
             $position++;
         }
     }
+
+    /**
+     * @param int[] $entityIds
+     * @param string $entityClass FQCN
+     * @return \Shopsys\FrameworkBundle\Component\Image\Image[]
+     */
+    public function getImagesOrNullsByEntitiesIndexedByEntityId(array $entityIds, string $entityClass)
+    {
+        $entityName = $this->imageConfig->getImageEntityConfigByClass($entityClass)->getEntityName();
+
+        return $this->imageRepository->getMainImagesByEntitiesIndexedByEntityId($entityIds, $entityName);
+    }
 }
