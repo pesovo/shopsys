@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/shopsys/read-model.svg?branch=master)](https://travis-ci.org/shopsys/read-model)
 [![Downloads](https://img.shields.io/packagist/dt/shopsys/read-model.svg)](https://packagist.org/packages/shopsys/read-model)
 
-This bundle for [Shopsys Framework](https://www.shopsys-framework.com) separate templates from model with read model concept.
+This bundle for [Shopsys Framework](https://www.shopsys-framework.com) separates templates from model using [read model concept](/docs/model/introduction-to-read-model.md).
 
 This repository is maintained by [shopsys/shopsys] monorepo, information about changes are in [monorepo CHANGELOG.md](https://github.com/shopsys/shopsys/blob/master/CHANGELOG.md).
 
@@ -38,6 +38,24 @@ class AppKernel extends Kernel
     // ...
 }
 ```
+
+## Usage
+If you want to leverage the advantages of read model concept, you need to use the particular implementation of `ListedProductViewFacadeInterface` in your controllers (there is already prepared one implementation in the bundle).
+The facade provides you the view objects for product lists that can be then used in the templates.
+
+### Available View Objects
+- [`ListedProductView`](/packages/read-model/src/Product/Listed/ListedProductView.php) - product representation for FE product lists
+- [`ActionView`](/packages/read-model/src/Product/Action/ProductActionView.php) - representation of product action area (i.e. form for adding a product to cart, or link to the product detail in the case of main variant)
+- [`ImageView`](/packages/read-model/src/Image/ImageView.php) - representation of image
+
+### Available Twig functions
+- `image`
+- `renderFlagsByIds`
+
+See [`Twig`](/packages/read-model/src/Twig/) folder for implementation details.
+
+### Example
+<!--- TODO add link to commit with readmodel usage -->
 
 ## Contributing
 Thank you for your contributions to Shopsys Read Model package.
