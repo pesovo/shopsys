@@ -63,7 +63,7 @@ class ListedProductView implements ListedProductViewInterface
      * @param string|null $shortDescription
      * @param string $availability
      * @param \Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPrice $sellingPrice
-     * @param array $flagIds
+     * @param int[] $flagIds
      * @param \Shopsys\ReadModelBundle\Product\Action\ProductActionViewInterface $action
      * @param \Shopsys\ReadModelBundle\Image\ImageViewInterface|null $image
      */
@@ -77,11 +77,7 @@ class ListedProductView implements ListedProductViewInterface
         ProductActionViewInterface $action,
         ?ImageViewInterface $image
     ) {
-        foreach ($flagIds as $flagId) {
-            if (!is_int($flagId)) {
-                throw new \InvalidArgumentException('"$flagIds" has to be an array of integers.');
-            }
-        }
+        $this->validateFlagIds($flagIds);
 
         $this->id = $id;
         $this->name = $name;
@@ -155,5 +151,17 @@ class ListedProductView implements ListedProductViewInterface
     public function getAction(): ProductActionView
     {
         return $this->action;
+    }
+
+    /**
+     * @param array $flagIds
+     */
+    protected function validateFlagIds(array $flagIds): void
+    {
+        foreach ($flagIds as $flagId) {
+            if (!is_int($flagId)) {
+                throw new \InvalidArgumentException('"$flagIds" has to be an array of integers.');
+            }
+        }
     }
 }
