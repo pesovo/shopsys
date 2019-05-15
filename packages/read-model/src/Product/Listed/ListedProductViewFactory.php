@@ -8,25 +8,13 @@ use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Product\ProductCachedAttributesFacade;
 use Shopsys\ReadModelBundle\Image\ImageViewInterface;
-use Shopsys\ReadModelBundle\Image\ImageViewRepository;
 use Shopsys\ReadModelBundle\Product\Action\ProductActionViewInterface;
-use Shopsys\ReadModelBundle\Product\Action\ProductActionViewRepository;
 
 /**
  * @experimental
  */
 class ListedProductViewFactory
 {
-    /**
-     * @var \Shopsys\ReadModelBundle\Image\ImageViewRepository
-     */
-    protected $imageViewRepository;
-
-    /**
-     * @var \Shopsys\ReadModelBundle\Product\Action\ProductActionViewRepository
-     */
-    protected $productActionViewRepository;
-
     /**
      * @var \Shopsys\FrameworkBundle\Component\Domain\Domain
      */
@@ -38,39 +26,15 @@ class ListedProductViewFactory
     protected $productCachedAttributesFacade;
 
     /**
-     * @param \Shopsys\ReadModelBundle\Image\ImageViewRepository $imageViewRepository
-     * @param \Shopsys\ReadModelBundle\Product\Action\ProductActionViewRepository $productActionViewRepository
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
      * @param \Shopsys\FrameworkBundle\Model\Product\ProductCachedAttributesFacade $productCachedAttributesFacade
      */
     public function __construct(
-        ImageViewRepository $imageViewRepository,
-        ProductActionViewRepository $productActionViewRepository,
         Domain $domain,
         ProductCachedAttributesFacade $productCachedAttributesFacade
     ) {
-        $this->imageViewRepository = $imageViewRepository;
-        $this->productActionViewRepository = $productActionViewRepository;
         $this->domain = $domain;
         $this->productCachedAttributesFacade = $productCachedAttributesFacade;
-    }
-
-    /**
-     * @param \Shopsys\ShopBundle\Model\Product\Product[] $products
-     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewInterface[]
-     */
-    public function createFromProducts(array $products): array
-    {
-        $imageViews = $this->imageViewRepository->getForEntityIds(Product::class, $this->getIdsForProducts($products));
-        $productActionViews = $this->productActionViewRepository->getForProducts($products);
-
-        $listedProductViews = [];
-        foreach ($products as $product) {
-            $productId = $product->getId();
-            $listedProductViews[$productId] = $this->createFromProduct($product, $imageViews[$productId], $productActionViews[$productId]);
-        }
-
-        return $listedProductViews;
     }
 
     /**
@@ -79,7 +43,7 @@ class ListedProductViewFactory
      * @param \Shopsys\ReadModelBundle\Product\Action\ProductActionViewInterface $productActionView
      * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewInterface
      */
-    protected function createFromProduct(Product $product, ?ImageViewInterface $imageView, ProductActionViewInterface $productActionView): ListedProductViewInterface
+    public function createFromProduct(Product $product, ?ImageViewInterface $imageView, ProductActionViewInterface $productActionView): ListedProductViewInterface
     {
         return new ListedProductView(
             $product->getId(),
@@ -105,16 +69,5 @@ class ListedProductViewFactory
         }
 
         return $flagIds;
-    }
-
-    /**
-     * @param \Shopsys\ShopBundle\Model\Product\Product[] $products
-     * @return int[]
-     */
-    protected function getIdsForProducts(array $products): array
-    {
-        return array_map(static function (Product $product): int {
-            return $product->getId();
-        }, $products);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shopsys\FrameworkBundle\Component\Image;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -428,7 +430,7 @@ class ImageFacade
      * @param string $entityClass FQCN
      * @return \Shopsys\FrameworkBundle\Component\Image\Image[]
      */
-    public function getImagesOrNullsByEntitiesIndexedByEntityId(array $entityIds, string $entityClass)
+    public function getImagesByEntitiesIndexedByEntityId(array $entityIds, string $entityClass): array
     {
         $entityName = $this->imageConfig->getImageEntityConfigByClass($entityClass)->getEntityName();
 

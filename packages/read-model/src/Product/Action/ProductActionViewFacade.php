@@ -10,7 +10,7 @@ use Shopsys\FrameworkBundle\Model\Product\Collection\ProductCollectionFacade;
 /**
  * @experimental
  */
-class ProductActionViewRepository
+class ProductActionViewFacade
 {
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\Collection\ProductCollectionFacade
