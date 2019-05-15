@@ -18,7 +18,7 @@ class ListedProductViewFactory extends BaseListedProductViewFactory
      * @param \Shopsys\ReadModelBundle\Product\Action\ProductActionViewInterface $productActionView
      * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewInterface
      */
-    protected function createFromProduct(Product $product, ?ImageViewInterface $imageView, ProductActionViewInterface $productActionView): ListedProductViewInterface
+    public function createFromProduct(Product $product, ?ImageViewInterface $imageView, ProductActionViewInterface $productActionView): ListedProductViewInterface
     {
         return new ListedProductView(
             $product->getId(),
