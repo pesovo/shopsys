@@ -54,3 +54,9 @@ services:
     Shopsys\ShopBundle\Model\AdvancedSearch\ProductAdvancedSearchConfig: ~
 
     Shopsys\FrameworkBundle\Model\AdvancedSearch\ProductAdvancedSearchConfig: '@Shopsys\ShopBundle\Model\AdvancedSearch\ProductAdvancedSearchConfig'
+
+    Shopsys\ReadModelBundle\Image\ImageViewRepository: ~
+
+    Shopsys\ReadModelBundle\Product\Action\ProductActionViewRepository: ~
+
+    Shopsys\ReadModelBundle\Product\Listed\ListedProductViewRepository: ~
