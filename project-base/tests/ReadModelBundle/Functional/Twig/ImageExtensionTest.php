@@ -55,7 +55,14 @@ class ImageExtensionTest extends FunctionalTestCase
         $readModelBundleImageExtension = new ImageExtension($frameworkBundleImageExtension, $imageFacade, $domain);
         $html = $readModelBundleImageExtension->getImageHtml($imageView);
 
-        $this->assertXmlStringEqualsXmlFile(__DIR__ . '/Resources/picture-facade.twig', $html);
+        $url = $domain->getCurrentDomainConfig()->getUrl();
+
+        $expected = '<picture>';
+        $expected .= sprintf('    <source media="(min-width: 480px) and (max-width: 768px)" srcset="%s/content-test/images/product/default/additional_0_1.jpg"/>', $url);
+        $expected .= sprintf('    <img alt="" class="image-product" itemprop="image" src="%s/content-test/images/product/default/1.jpg" title=""/>', $url);
+        $expected .= '</picture>';
+
+        $this->assertXmlStringEqualsXmlString($expected, $html);
 
         libxml_clear_errors();
     }
