@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Shopsys\ReadModelBundle\Product\Listed;
 
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
-use Shopsys\FrameworkBundle\Model\Product\Flag\Flag;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Product\ProductCachedAttributesFacade;
 use Shopsys\ReadModelBundle\Image\ImageViewInterface;
@@ -68,7 +67,7 @@ class ListedProductViewFactory
         $listedProductViews = [];
         foreach ($products as $product) {
             $productId = $product->getId();
-            $listedProductViews[] = $this->createFromProduct($product, $imageViews[$productId], $productActionViews[$productId]);
+            $listedProductViews[$productId] = $this->createFromProduct($product, $imageViews[$productId], $productActionViews[$productId]);
         }
 
         return $listedProductViews;
@@ -100,9 +99,12 @@ class ListedProductViewFactory
      */
     protected function getFlagIdsForProduct(Product $product): array
     {
-        return array_map(static function (Flag $flag): int {
-            return $flag->getId();
-        }, $product->getFlags()->toArray());
+        $flagIds = [];
+        foreach ($product->getFlags() as $flag) {
+            $flagIds[] = $flag->getId();
+        }
+
+        return $flagIds;
     }
 
     /**
