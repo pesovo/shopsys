@@ -8,10 +8,10 @@ use PHPUnit\Framework\TestCase;
 use Shopsys\FrameworkBundle\Component\Image\Image;
 use Shopsys\FrameworkBundle\Component\Image\ImageFacade;
 use Shopsys\ReadModelBundle\Image\ImageView;
+use Shopsys\ReadModelBundle\Image\ImageViewFacade;
 use Shopsys\ReadModelBundle\Image\ImageViewFactory;
-use Shopsys\ReadModelBundle\Image\ImageViewRepository;
 
-class ImageViewRepositoryTest extends TestCase
+class ImageViewFacadeTest extends TestCase
 {
     private const IMAGE_EXTENSION = 'jpg';
 
@@ -23,7 +23,7 @@ class ImageViewRepositoryTest extends TestCase
         parent::setUp();
 
         $this->imageFacadeMock = $this->createMock(ImageFacade::class);
-        $this->imageFacadeMock->method('getImagesOrNullsByEntitiesIndexedByEntityId')
+        $this->imageFacadeMock->method('getImagesByEntitiesIndexedByEntityId')
             ->willReturnCallback(function ($entityIds, string $entityClass) {
                 $images = [];
 
@@ -43,9 +43,9 @@ class ImageViewRepositoryTest extends TestCase
     public function testGetForEntityIds(): void
     {
         $imageFactory = new ImageViewFactory();
-        $imageViewRepository = new ImageViewRepository($this->imageFacadeMock, $imageFactory);
+        $imageViewFacade = new ImageViewFacade($this->imageFacadeMock, $imageFactory);
 
-        $imageViews = $imageViewRepository->getForEntityIds('product', [1, 3, 5]);
+        $imageViews = $imageViewFacade->getForEntityIds('product', [1, 3, 5]);
 
         $this->assertEquals(new ImageView(1, self::IMAGE_EXTENSION, 'product', null), $imageViews[1]);
         $this->assertEquals(new ImageView(3, self::IMAGE_EXTENSION, 'product', null), $imageViews[3]);
@@ -55,9 +55,9 @@ class ImageViewRepositoryTest extends TestCase
     public function testGetForEntityIdsWithNullImages(): void
     {
         $imageFactory = new ImageViewFactory();
-        $imageViewRepository = new ImageViewRepository($this->imageFacadeMock, $imageFactory);
+        $imageViewFacade = new ImageViewFacade($this->imageFacadeMock, $imageFactory);
 
-        $imageViews = $imageViewRepository->getForEntityIds('product', [10, 800, 2]);
+        $imageViews = $imageViewFacade->getForEntityIds('product', [10, 800, 2]);
 
         $this->assertEquals(new ImageView(10, self::IMAGE_EXTENSION, 'product', null), $imageViews[10]);
         $this->assertNull($imageViews[800]);

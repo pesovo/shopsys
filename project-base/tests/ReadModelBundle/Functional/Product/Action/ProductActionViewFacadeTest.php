@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Tests\ReadModelBundle\Functional\Product\Action;
 
 use Shopsys\ReadModelBundle\Product\Action\ProductActionView;
-use Shopsys\ReadModelBundle\Product\Action\ProductActionViewRepository;
+use Shopsys\ReadModelBundle\Product\Action\ProductActionViewFacade;
 use Shopsys\ShopBundle\DataFixtures\Demo\ProductDataFixture;
 use Tests\ShopBundle\Test\FunctionalTestCase;
 
-class ProductActionViewRepositoryTest extends FunctionalTestCase
+class ProductActionViewFacadeTest extends FunctionalTestCase
 {
     public function testGetForSingleProduct(): void
     {
-        $productActionViewRepository = $this->getContainer()->get(ProductActionViewRepository::class);
+        $productActionViewFacade = $this->getContainer()->get(ProductActionViewFacade::class);
 
         $products = [
             $this->getReference(ProductDataFixture::PRODUCT_PREFIX . '1'),
@@ -21,7 +21,7 @@ class ProductActionViewRepositoryTest extends FunctionalTestCase
             $this->getReference(ProductDataFixture::PRODUCT_PREFIX . '3'),
         ];
 
-        $productActionViews = $productActionViewRepository->getForProducts($products);
+        $productActionViews = $productActionViewFacade->getForProducts($products);
 
         $this->assertCount(3, $productActionViews);
         $this->assertInstanceOf(ProductActionView::class, $productActionViews[1]);

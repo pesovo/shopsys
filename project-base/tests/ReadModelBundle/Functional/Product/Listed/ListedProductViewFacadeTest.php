@@ -4,18 +4,18 @@ namespace Tests\ReadModelBundle\Functional\Product\Listed;
 
 use Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterData;
 use Shopsys\FrameworkBundle\Model\Product\Listing\ProductListOrderingConfig;
+use Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacade;
 use Shopsys\ReadModelBundle\Product\Listed\ListedProductViewInterface;
-use Shopsys\ReadModelBundle\Product\Listed\ListedProductViewRepository;
 use Tests\ShopBundle\Test\FunctionalTestCase;
 
-class ListedProductViewRepositoryTest extends FunctionalTestCase
+class ListedProductViewFacadeTest extends FunctionalTestCase
 {
-    public function testGetForAccessories(): void
+    public function testGetAccessories(): void
     {
-        /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewRepository $listedProductViewRepository */
-        $listedProductViewRepository = $this->getContainer()->get(ListedProductViewRepository::class);
+        /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacade $listedProductViewFacade */
+        $listedProductViewFacade = $this->getContainer()->get(ListedProductViewFacade::class);
 
-        $listedProductViews = $listedProductViewRepository->getForAccessories(1);
+        $listedProductViews = $listedProductViewFacade->getAccessories(1);
 
         $this->assertCount(2, $listedProductViews);
 
@@ -31,10 +31,10 @@ class ListedProductViewRepositoryTest extends FunctionalTestCase
 
     public function testGetPaginatedForBrand(): void
     {
-        /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewRepository $listedProductViewRepository */
-        $listedProductViewRepository = $this->getContainer()->get(ListedProductViewRepository::class);
+        /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacade $listedProductViewFacade */
+        $listedProductViewFacade = $this->getContainer()->get(ListedProductViewFacade::class);
 
-        $paginationResults = $listedProductViewRepository->getPaginatedForBrand(1, ProductListOrderingConfig::ORDER_BY_NAME_ASC, 1, 10);
+        $paginationResults = $listedProductViewFacade->getPaginatedForBrand(1, ProductListOrderingConfig::ORDER_BY_NAME_ASC, 1, 10);
         $listedProductViews = $paginationResults->getResults();
 
         $this->assertCount(1, $listedProductViews);
@@ -44,13 +44,13 @@ class ListedProductViewRepositoryTest extends FunctionalTestCase
         $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[5]);
     }
 
-    public function testGetPaginatedForFilteredSearch(): void
+    public function testGetFilteredPaginatedForSearch(): void
     {
-        /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewRepository $listedProductViewRepository */
-        $listedProductViewRepository = $this->getContainer()->get(ListedProductViewRepository::class);
+        /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacade $listedProductViewFacade */
+        $listedProductViewFacade = $this->getContainer()->get(ListedProductViewFacade::class);
         $emptyFilterData = new ProductFilterData();
 
-        $paginationResults = $listedProductViewRepository->getPaginatedForFilteredSearch('kitty', $emptyFilterData, ProductListOrderingConfig::ORDER_BY_NAME_ASC, 1, 10);
+        $paginationResults = $listedProductViewFacade->getFilteredPaginatedForSearch('kitty', $emptyFilterData, ProductListOrderingConfig::ORDER_BY_NAME_ASC, 1, 10);
         $listedProductViews = $paginationResults->getResults();
 
         $this->assertArrayHasKey(1, $listedProductViews);
@@ -60,12 +60,12 @@ class ListedProductViewRepositoryTest extends FunctionalTestCase
         $this->assertEquals('22" Sencor SLE 22F46DM4 HELLO KITTY', $listedProductViews[1]->getName());
     }
 
-    public function testGetForTop(): void
+    public function testGetTop(): void
     {
-        /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewRepository $listedProductViewRepository */
-        $listedProductViewRepository = $this->getContainer()->get(ListedProductViewRepository::class);
+        /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacade $listedProductViewFacade */
+        $listedProductViewFacade = $this->getContainer()->get(ListedProductViewFacade::class);
 
-        $listedProductViews = $listedProductViewRepository->getForTop(1);
+        $listedProductViews = $listedProductViewFacade->getTop(1);
 
         $this->assertCount(1, $listedProductViews);
 
@@ -76,13 +76,13 @@ class ListedProductViewRepositoryTest extends FunctionalTestCase
         $this->assertEquals('22" Sencor SLE 22F46DM4 HELLO KITTY', $listedProductViews[1]->getName());
     }
 
-    public function testGetPaginatedForFilteredInCategory(): void
+    public function testGetFilteredPaginatedInCategory(): void
     {
-        /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewRepository $listedProductViewRepository */
-        $listedProductViewRepository = $this->getContainer()->get(ListedProductViewRepository::class);
+        /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacade $listedProductViewFacade */
+        $listedProductViewFacade = $this->getContainer()->get(ListedProductViewFacade::class);
         $emptyFilterData = new ProductFilterData();
 
-        $paginationResults = $listedProductViewRepository->getPaginatedForFilteredInCategory(9, $emptyFilterData, ProductListOrderingConfig::ORDER_BY_NAME_ASC, 1, 5);
+        $paginationResults = $listedProductViewFacade->getFilteredPaginatedInCategory(9, $emptyFilterData, ProductListOrderingConfig::ORDER_BY_NAME_ASC, 1, 5);
         $listedProductViews = $paginationResults->getResults();
 
         $this->assertCount(5, $listedProductViews);

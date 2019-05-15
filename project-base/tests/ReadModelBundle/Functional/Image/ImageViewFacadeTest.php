@@ -5,19 +5,19 @@ declare(strict_types=1);
 namespace Tests\ReadModelBundle\Functional\Image;
 
 use Shopsys\FrameworkBundle\Model\Product\Product;
+use Shopsys\ReadModelBundle\Image\ImageViewFacade;
 use Shopsys\ReadModelBundle\Image\ImageViewInterface;
-use Shopsys\ReadModelBundle\Image\ImageViewRepository;
 use Tests\ShopBundle\Test\FunctionalTestCase;
 
-class ImageViewRepositoryTest extends FunctionalTestCase
+class ImageViewFacadeTest extends FunctionalTestCase
 {
     public function testGetForSingleEntityId(): void
     {
         $testedProductId = 1;
 
-        $imageViewRepository = $this->getContainer()->get(ImageViewRepository::class);
+        $imageViewFacade = $this->getContainer()->get(ImageViewFacade::class);
 
-        $imageViews = $imageViewRepository->getForEntityIds(Product::class, [$testedProductId]);
+        $imageViews = $imageViewFacade->getForEntityIds(Product::class, [$testedProductId]);
 
         $this->assertCount(1, $imageViews);
         $this->assertInstanceOf(ImageViewInterface::class, $imageViews[$testedProductId]);
@@ -32,9 +32,9 @@ class ImageViewRepositoryTest extends FunctionalTestCase
     {
         $testedProductId = 99999;
 
-        $imageViewRepository = $this->getContainer()->get(ImageViewRepository::class);
+        $imageViewFacade = $this->getContainer()->get(ImageViewFacade::class);
 
-        $imageViews = $imageViewRepository->getForEntityIds(Product::class, [$testedProductId]);
+        $imageViews = $imageViewFacade->getForEntityIds(Product::class, [$testedProductId]);
 
         $this->assertCount(1, $imageViews);
         $this->assertNull($imageViews[$testedProductId]);
@@ -42,9 +42,9 @@ class ImageViewRepositoryTest extends FunctionalTestCase
 
     public function testGetForEntityIds(): void
     {
-        $imageViewRepository = $this->getContainer()->get(ImageViewRepository::class);
+        $imageViewFacade = $this->getContainer()->get(ImageViewFacade::class);
 
-        $imageViews = $imageViewRepository->getForEntityIds(Product::class, [1, 2, 3]);
+        $imageViews = $imageViewFacade->getForEntityIds(Product::class, [1, 2, 3]);
 
         $this->assertCount(3, $imageViews);
         $this->assertInstanceOf(ImageViewInterface::class, $imageViews[1]);

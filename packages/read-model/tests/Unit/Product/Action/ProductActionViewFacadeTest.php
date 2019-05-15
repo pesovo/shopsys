@@ -10,10 +10,10 @@ use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Model\Product\Collection\ProductCollectionFacade;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\ReadModelBundle\Product\Action\ProductActionView;
+use Shopsys\ReadModelBundle\Product\Action\ProductActionViewFacade;
 use Shopsys\ReadModelBundle\Product\Action\ProductActionViewFactory;
-use Shopsys\ReadModelBundle\Product\Action\ProductActionViewRepository;
 
-class ProductActionViewRepositoryTest extends TestCase
+class ProductActionViewFacadeTest extends TestCase
 {
     public function testGetForProducts(): void
     {
@@ -31,9 +31,9 @@ class ProductActionViewRepositoryTest extends TestCase
             3 => 'http://http://webserver:8080/product/3',
         ]);
 
-        $productActionViewRepository = new ProductActionViewRepository($productCollectionFacade, $domain, $productActionViewFactory);
+        $productActionViewFacade = new ProductActionViewFacade($productCollectionFacade, $domain, $productActionViewFactory);
 
-        $productActionViews = $productActionViewRepository->getForProducts([
+        $productActionViews = $productActionViewFacade->getForProducts([
             $this->createProductMock(1),
             $this->createProductMock(2),
             $this->createProductMock(3),
