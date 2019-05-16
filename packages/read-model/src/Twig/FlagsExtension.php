@@ -63,7 +63,7 @@ class FlagsExtension extends AbstractExtension
      */
     protected function getFlagsByIds(array $flagIds): array
     {
-        if ($this->allFlags == null) {
+        if ($this->allFlags === null) {
             $this->allFlags = $this->flagFacade->getAll();
         }
 
