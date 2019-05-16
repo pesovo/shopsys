@@ -198,7 +198,7 @@ class ListedProductViewFacade implements ListedProductViewFacadeInterface
      * @param \Shopsys\ShopBundle\Model\Product\Product[] $products
      * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewInterface[]
      */
-    public function createFromProducts(array $products): array
+    protected function createFromProducts(array $products): array
     {
         $imageViews = $this->imageViewFacade->getForEntityIds(Product::class, $this->getIdsForProducts($products));
         $productActionViews = $this->productActionViewFacade->getForProducts($products);
