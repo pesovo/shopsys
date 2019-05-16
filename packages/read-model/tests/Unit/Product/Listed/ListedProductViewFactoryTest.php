@@ -14,59 +14,59 @@ use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Product\ProductCachedAttributesFacade;
 use Shopsys\ReadModelBundle\Image\ImageView;
 use Shopsys\ReadModelBundle\Product\Action\ProductActionView;
+use Shopsys\ReadModelBundle\Product\Listed\ListedProductView;
 use Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFactory;
 
 class ListedProductViewFactoryTest extends TestCase
 {
     /**
-     * @dataProvider getProducts
+     * @dataProvider getProductsData
      * @param int $id
      * @param string $productName
+     * @param string $shortDescription
+     * @param string $availabilityName
+     * @param int $priceAmount
      * @param \Shopsys\ReadModelBundle\Image\ImageView $imageView
      * @param \Shopsys\ReadModelBundle\Product\Action\ProductActionView $productActionView
      * @param array|\Doctrine\Common\Collections\ArrayCollection $flags
      * @param int[] $expectedFlags
      */
-    public function testCreateFromProduct(int $id, string $productName, ImageView $imageView, ProductActionView $productActionView, $flags, $expectedFlags): void
+    public function testCreateFromProduct(int $id, string $productName, string $shortDescription, string $availabilityName, int $priceAmount, ImageView $imageView, ProductActionView $productActionView, $flags, $expectedFlags): void
     {
-        $priceAmount = 10;
-
         $domainMock = $this->createDomainMock();
         $productCachedAttributesFacadeMock = $this->createProductCachedAttributesFacadeMock($priceAmount);
 
         $listedProductViewFactory = new ListedProductViewFactory($domainMock, $productCachedAttributesFacadeMock);
 
-        $productMock = $this->createProductMock($id, $productName, $flags);
+        $productMock = $this->createProductMock($id, $productName, $shortDescription, $availabilityName, $flags);
 
         /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductView $listedProductView */
         $listedProductView = $listedProductViewFactory->createFromProduct($productMock, $imageView, $productActionView);
 
-        $this->assertEquals($id, $listedProductView->getId());
+        $expected = new ListedProductView($id, $productName, $shortDescription, $availabilityName, $this->createProductPrice($priceAmount), $expectedFlags, $productActionView, $imageView);
 
-        $this->assertEquals($productName, $listedProductView->getName());
-
-        $this->assertEquals($expectedFlags, $listedProductView->getFlagIds());
-
-        $this->assertEquals($this->createProductPrice($priceAmount), $listedProductView->getSellingPrice());
+        $this->assertEquals($expected, $listedProductView);
     }
 
     /**
      * @param int $id
      * @param string $name
+     * @param string $shortDescription
+     * @param string $availabilityName
      * @param array|\Doctrine\Common\Collections\ArrayCollection $flags
      * @return \PHPUnit\Framework\MockObject\MockObject|\Shopsys\FrameworkBundle\Model\Product\Product
      */
-    private function createProductMock(int $id, string $name, $flags)
+    private function createProductMock(int $id, string $name, string $shortDescription, string $availabilityName, $flags)
     {
         $productMock = $this->createMock(Product::class);
 
         $productMock->method('getId')->willReturn($id);
         $productMock->method('getName')->willReturn($name);
-        $productMock->method('getShortDescription')->willReturn('short description');
+        $productMock->method('getShortDescription')->willReturn($shortDescription);
         $productMock->method('getFlags')->willReturn($flags);
 
         $productAvailabilityMock = $this->createMock(Availability::class);
-        $productAvailabilityMock->method('getName')->willReturn('available');
+        $productAvailabilityMock->method('getName')->willReturn($availabilityName);
 
         $productMock->method('getCalculatedAvailability')->willReturn($productAvailabilityMock);
 
@@ -88,12 +88,15 @@ class ListedProductViewFactoryTest extends TestCase
     /**
      * @return array
      */
-    public function getProducts(): array
+    public function getProductsData(): array
     {
         return [
             [
                 'id' => 1,
                 'productName' => '22" Sencor SLE 22F46DM4 HELLO KITTY',
+                'shortDescription' => 'short description',
+                'availabilityName' => 'available',
+                'priceAmount' => 100,
                 'imageView' => new ImageView(1, 'jpg', 'product', null),
                 'productActionView' => new ProductActionView(1, false, false, 'http://webserver:8080/product/1'),
                 'flags' => [
@@ -105,6 +108,9 @@ class ListedProductViewFactoryTest extends TestCase
             [
                 'id' => 2,
                 'productName' => '32" Philips 32PFL4308',
+                'short description' => 'even shorter description',
+                'availabilityName' => 'sold out',
+                'priceAmount' => 45,
                 'imageView' => new ImageView(2, 'jpg', 'product', null),
                 'productActionView' => new ProductActionView(2, false, false, 'http://webserver:8080/product/2'),
                 'flags' => new ArrayCollection([

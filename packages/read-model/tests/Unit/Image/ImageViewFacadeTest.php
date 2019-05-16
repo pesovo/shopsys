@@ -14,6 +14,7 @@ use Shopsys\ReadModelBundle\Image\ImageViewFactory;
 class ImageViewFacadeTest extends TestCase
 {
     private const IMAGE_EXTENSION = 'jpg';
+    private const NOT_EXISTING_PRODUCT_ID = 800;
 
     /** @var \Shopsys\FrameworkBundle\Component\Image\ImageFacade */
     private $imageFacadeMock;
@@ -22,22 +23,7 @@ class ImageViewFacadeTest extends TestCase
     {
         parent::setUp();
 
-        $this->imageFacadeMock = $this->createMock(ImageFacade::class);
-        $this->imageFacadeMock->method('getImagesByEntitiesIndexedByEntityId')
-            ->willReturnCallback(function ($entityIds, string $entityClass) {
-                $images = [];
-
-                foreach ($entityIds as $entityId) {
-                    // id 800 represents not existing product
-                    if ($entityId === 800) {
-                        continue;
-                    }
-
-                    $images[$entityId] = $this->createImageMock($entityId, $entityClass);
-                }
-
-                return $images;
-            });
+        $this->imageFacadeMock = $this->createImageFacadeMock();
     }
 
     public function testGetForEntityIds(): void
@@ -47,9 +33,13 @@ class ImageViewFacadeTest extends TestCase
 
         $imageViews = $imageViewFacade->getForEntityIds('product', [1, 3, 5]);
 
-        $this->assertEquals(new ImageView(1, self::IMAGE_EXTENSION, 'product', null), $imageViews[1]);
-        $this->assertEquals(new ImageView(3, self::IMAGE_EXTENSION, 'product', null), $imageViews[3]);
-        $this->assertEquals(new ImageView(5, self::IMAGE_EXTENSION, 'product', null), $imageViews[5]);
+        $expected = [
+            1 => new ImageView(1, self::IMAGE_EXTENSION, 'product', null),
+            3 => new ImageView(3, self::IMAGE_EXTENSION, 'product', null),
+            5 => new ImageView(5, self::IMAGE_EXTENSION, 'product', null),
+        ];
+
+        $this->assertEquals($expected, $imageViews);
     }
 
     public function testGetForEntityIdsWithNullImages(): void
@@ -57,11 +47,15 @@ class ImageViewFacadeTest extends TestCase
         $imageFactory = new ImageViewFactory();
         $imageViewFacade = new ImageViewFacade($this->imageFacadeMock, $imageFactory);
 
-        $imageViews = $imageViewFacade->getForEntityIds('product', [10, 800, 2]);
+        $imageViews = $imageViewFacade->getForEntityIds('product', [10, self::NOT_EXISTING_PRODUCT_ID, 2]);
 
-        $this->assertEquals(new ImageView(10, self::IMAGE_EXTENSION, 'product', null), $imageViews[10]);
-        $this->assertNull($imageViews[800]);
-        $this->assertEquals(new ImageView(2, self::IMAGE_EXTENSION, 'product', null), $imageViews[2]);
+        $expected = [
+            10 => new ImageView(10, self::IMAGE_EXTENSION, 'product', null),
+            self::NOT_EXISTING_PRODUCT_ID => null,
+            2 => new ImageView(2, self::IMAGE_EXTENSION, 'product', null),
+        ];
+
+        $this->assertEquals($expected, $imageViews);
     }
 
     /**
@@ -79,5 +73,32 @@ class ImageViewFacadeTest extends TestCase
         $imageMock->method('getType')->willReturn(null);
 
         return $imageMock;
+    }
+
+    /**
+     * @return \Shopsys\FrameworkBundle\Component\Image\ImageFacade
+     */
+    protected function createImageFacadeMock(): ImageFacade
+    {
+        $imageFacadeMock = $this->createMock(ImageFacade::class);
+
+        $getImageMocksWithSomeNotFoundCallback = function (array $entityIds, string $entityClass): array {
+            $images = [];
+
+            foreach ($entityIds as $entityId) {
+                if ($entityId === self::NOT_EXISTING_PRODUCT_ID) {
+                    continue;
+                }
+
+                $images[$entityId] = $this->createImageMock($entityId, $entityClass);
+            }
+
+            return $images;
+        };
+
+        $imageFacadeMock->method('getImagesByEntitiesIndexedByEntityId')
+            ->willReturnCallback($getImageMocksWithSomeNotFoundCallback);
+
+        return $imageFacadeMock;
     }
 }

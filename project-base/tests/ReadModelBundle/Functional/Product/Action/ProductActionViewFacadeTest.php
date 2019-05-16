@@ -26,13 +26,12 @@ class ProductActionViewFacadeTest extends FunctionalTestCase
 
         $productActionViews = $productActionViewFacade->getForProducts($products);
 
-        $this->assertCount(3, $productActionViews);
-        $this->assertInstanceOf(ProductActionView::class, $productActionViews[1]);
+        $expected = [
+            1 => new ProductActionView(1, false, false, sprintf('%s/22-sencor-sle-22f46dm4-hello-kitty/', $url)),
+            2 => new ProductActionView(2, false, false, sprintf('%s/32-philips-32pfl4308/', $url)),
+            3 => new ProductActionView(3, false, false, sprintf('%s/47-lg-47la790v-fhd/', $url)),
+        ];
 
-        /** @var \Shopsys\ReadModelBundle\Product\Action\ProductActionView[] $productActionViews */
-        $this->assertSame(1, $productActionViews[1]->getId());
-        $this->assertSame(sprintf('%s/22-sencor-sle-22f46dm4-hello-kitty/', $url), $productActionViews[1]->getDetailUrl());
-        $this->assertFalse($productActionViews[1]->isMainVariant());
-        $this->assertFalse($productActionViews[1]->isSellingDenied());
+        $this->assertEquals($expected, $productActionViews);
     }
 }

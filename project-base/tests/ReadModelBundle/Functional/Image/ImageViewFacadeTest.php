@@ -5,50 +5,62 @@ declare(strict_types=1);
 namespace Tests\ReadModelBundle\Functional\Image;
 
 use Shopsys\FrameworkBundle\Model\Product\Product;
+use Shopsys\ReadModelBundle\Image\ImageView;
 use Shopsys\ReadModelBundle\Image\ImageViewFacade;
-use Shopsys\ReadModelBundle\Image\ImageViewInterface;
 use Tests\ShopBundle\Test\FunctionalTestCase;
 
 class ImageViewFacadeTest extends FunctionalTestCase
 {
+    private const PRODUCT_ID_1 = 1;
+    private const PRODUCT_ID_2 = 2;
+    private const PRODUCT_ID_3 = 3;
+
+    private const PRODUCT_IMAGE_PAIRS = [
+        self::PRODUCT_ID_1 => 1,
+        self::PRODUCT_ID_2 => 2,
+        self::PRODUCT_ID_3 => 3,
+    ];
+
+    private const INVALID_PRODUCT_ID = 99999;
+
     public function testGetForSingleEntityId(): void
     {
-        $testedProductId = 1;
-
         $imageViewFacade = $this->getContainer()->get(ImageViewFacade::class);
 
-        $imageViews = $imageViewFacade->getForEntityIds(Product::class, [$testedProductId]);
+        $imageViews = $imageViewFacade->getForEntityIds(Product::class, [self::PRODUCT_ID_1]);
 
-        $this->assertCount(1, $imageViews);
-        $this->assertInstanceOf(ImageViewInterface::class, $imageViews[$testedProductId]);
+        $expected = [
+            self::PRODUCT_ID_1 => new ImageView(self::PRODUCT_IMAGE_PAIRS[self::PRODUCT_ID_1], 'jpg', 'product', null),
+        ];
 
-        /** @var \Shopsys\ReadModelBundle\Image\ImageView[] $imageViews */
-        $this->assertSame('product', $imageViews[1]->getEntityName());
-        $this->assertSame(1, $imageViews[1]->getId());
-        $this->assertSame('jpg', $imageViews[1]->getExtension());
+        $this->assertEquals($expected, $imageViews);
     }
 
     public function testGetForInvalidEntityId(): void
     {
-        $testedProductId = 99999;
-
         $imageViewFacade = $this->getContainer()->get(ImageViewFacade::class);
 
-        $imageViews = $imageViewFacade->getForEntityIds(Product::class, [$testedProductId]);
+        $imageViews = $imageViewFacade->getForEntityIds(Product::class, [self::INVALID_PRODUCT_ID]);
 
-        $this->assertCount(1, $imageViews);
-        $this->assertNull($imageViews[$testedProductId]);
+        $expected = [
+            self::INVALID_PRODUCT_ID => null,
+        ];
+
+        $this->assertEquals($expected, $imageViews);
     }
 
     public function testGetForEntityIds(): void
     {
         $imageViewFacade = $this->getContainer()->get(ImageViewFacade::class);
 
-        $imageViews = $imageViewFacade->getForEntityIds(Product::class, [1, 2, 3]);
+        $imageViews = $imageViewFacade->getForEntityIds(Product::class, [self::PRODUCT_ID_1, self::PRODUCT_ID_2, self::PRODUCT_ID_3]);
 
-        $this->assertCount(3, $imageViews);
-        $this->assertInstanceOf(ImageViewInterface::class, $imageViews[1]);
-        $this->assertInstanceOf(ImageViewInterface::class, $imageViews[2]);
-        $this->assertInstanceOf(ImageViewInterface::class, $imageViews[3]);
+        $expected = [
+            self::PRODUCT_ID_1 => new ImageView(self::PRODUCT_IMAGE_PAIRS[self::PRODUCT_ID_1], 'jpg', 'product', null),
+            self::PRODUCT_ID_2 => new ImageView(self::PRODUCT_IMAGE_PAIRS[self::PRODUCT_ID_2], 'jpg', 'product', null),
+            self::PRODUCT_ID_3 => new ImageView(self::PRODUCT_IMAGE_PAIRS[self::PRODUCT_ID_3], 'jpg', 'product', null),
+        ];
+
+        $this->assertEquals($expected, $imageViews);
     }
 }

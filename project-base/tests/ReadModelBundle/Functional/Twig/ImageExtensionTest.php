@@ -22,16 +22,16 @@ class ImageExtensionTest extends FunctionalTestCase
 
         $productId = 2;
         $entityName = 'product';
-        $extension = 'jpg';
+        $fileExtension = 'jpg';
 
         $imageFacadeMock = $this->createMock(ImageFacade::class);
-        $imageFacadeMock->method('getImageUrlFromAttributes')->willReturn(sprintf('http://webserver:8080/%s/%d.%s', $entityName, $productId, $extension));
+        $imageFacadeMock->method('getImageUrlFromAttributes')->willReturn(sprintf('http://webserver:8080/%s/%d.%s', $entityName, $productId, $fileExtension));
         $imageFacadeMock->method('getAdditionalImagesDataFromAttributes')->willReturn([
-            new AdditionalImageData('(min-width: 1200px)', sprintf('http://webserver:8080/%s/additional_0_%d.%s', $entityName, $productId, $extension)),
-            new AdditionalImageData('(max-width: 480px)', sprintf('http://webserver:8080/%s/additional_1_%d.%s', $entityName, $productId, $extension)),
+            new AdditionalImageData('(min-width: 1200px)', sprintf('http://webserver:8080/%s/additional_0_%d.%s', $entityName, $productId, $fileExtension)),
+            new AdditionalImageData('(max-width: 480px)', sprintf('http://webserver:8080/%s/additional_1_%d.%s', $entityName, $productId, $fileExtension)),
         ]);
 
-        $imageView = new ImageView($productId, $extension, $entityName, null);
+        $imageView = new ImageView($productId, $fileExtension, $entityName, null);
 
         $readModelBundleImageExtension = new ImageExtension('', $domain, $imageLocator, $imageFacadeMock, $templating);
 
@@ -52,9 +52,9 @@ class ImageExtensionTest extends FunctionalTestCase
 
         $productId = 1;
         $entityName = 'product';
-        $extension = 'jpg';
+        $fileExtension = 'jpg';
 
-        $imageView = new ImageView($productId, $extension, $entityName, null);
+        $imageView = new ImageView($productId, $fileExtension, $entityName, null);
 
         $readModelBundleImageExtension = new ImageExtension('', $domain, $imageLocator, $imageFacade, $templating);
         $html = $readModelBundleImageExtension->getImageHtml($imageView);

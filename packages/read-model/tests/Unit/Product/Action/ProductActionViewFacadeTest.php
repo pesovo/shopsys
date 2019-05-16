@@ -19,10 +19,7 @@ class ProductActionViewFacadeTest extends TestCase
     {
         $productActionViewFactory = new ProductActionViewFactory();
 
-        $domainConfig = new DomainConfig(1, 'http://webserver:8080/', 'shopsys', 'en');
-
-        $domain = $this->createMock(Domain::class);
-        $domain->method('getCurrentDomainConfig')->willReturn($domainConfig);
+        $domain = $this->createDomainMock();
 
         $productCollectionFacade = $this->createMock(ProductCollectionFacade::class);
         $productCollectionFacade->method('getAbsoluteUrlsIndexedByProductId')->willReturn([
@@ -39,8 +36,13 @@ class ProductActionViewFacadeTest extends TestCase
             $this->createProductMock(3),
         ]);
 
-        $this->assertCount(3, $productActionViews);
-        $this->assertEquals(new ProductActionView(2, false, false, 'http://http://webserver:8080/product/2'), $productActionViews[2]);
+        $expected = [
+            1 => new ProductActionView(1, false, false, 'http://http://webserver:8080/product/1'),
+            2 => new ProductActionView(2, false, false, 'http://http://webserver:8080/product/2'),
+            3 => new ProductActionView(3, false, false, 'http://http://webserver:8080/product/3'),
+        ];
+
+        $this->assertEquals($expected, $productActionViews);
     }
 
     /**
@@ -56,5 +58,18 @@ class ProductActionViewFacadeTest extends TestCase
         $productMock->method('isMainVariant')->willReturn(false);
 
         return $productMock;
+    }
+
+    /**
+     * @return \Shopsys\FrameworkBundle\Component\Domain\Domain
+     */
+    protected function createDomainMock(): Domain
+    {
+        $domainConfig = new DomainConfig(1, 'http://webserver:8080/', 'shopsys', 'en');
+
+        $domain = $this->createMock(Domain::class);
+        $domain->method('getCurrentDomainConfig')->willReturn($domainConfig);
+
+        return $domain;
     }
 }

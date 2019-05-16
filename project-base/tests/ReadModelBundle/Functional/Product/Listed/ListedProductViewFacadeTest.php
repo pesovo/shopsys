@@ -15,18 +15,21 @@ class ListedProductViewFacadeTest extends FunctionalTestCase
         /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacade $listedProductViewFacade */
         $listedProductViewFacade = $this->getContainer()->get(ListedProductViewFacade::class);
 
+        $productId1 = 24;
+        $productId2 = 13;
+
         $listedProductViews = $listedProductViewFacade->getAccessories(1);
 
         $this->assertCount(2, $listedProductViews);
 
-        $this->assertArrayHasKey(24, $listedProductViews);
-        $this->assertArrayHasKey(13, $listedProductViews);
+        $this->assertArrayHasKey($productId1, $listedProductViews);
+        $this->assertArrayHasKey($productId2, $listedProductViews);
 
-        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[24]);
-        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[13]);
+        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[$productId1]);
+        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[$productId2]);
 
-        $this->assertEquals('Kabel HDMI A - HDMI A M/M 2m gold-plated connectors High Speed HD', $listedProductViews[24]->getName());
-        $this->assertEquals('Defender 2.0 SPK-480', $listedProductViews[13]->getName());
+        $this->assertEquals('Kabel HDMI A - HDMI A M/M 2m gold-plated connectors High Speed HD', $listedProductViews[$productId1]->getName());
+        $this->assertEquals('Defender 2.0 SPK-480', $listedProductViews[$productId2]->getName());
     }
 
     public function testGetPaginatedForBrand(): void
@@ -34,14 +37,15 @@ class ListedProductViewFacadeTest extends FunctionalTestCase
         /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacade $listedProductViewFacade */
         $listedProductViewFacade = $this->getContainer()->get(ListedProductViewFacade::class);
 
-        $paginationResults = $listedProductViewFacade->getPaginatedForBrand(1, ProductListOrderingConfig::ORDER_BY_NAME_ASC, 1, 10);
+        $brandId = 1;
+        $foundProductId = 5;
+
+        $paginationResults = $listedProductViewFacade->getPaginatedForBrand($brandId, ProductListOrderingConfig::ORDER_BY_NAME_ASC, 1, 10);
         $listedProductViews = $paginationResults->getResults();
 
         $this->assertCount(1, $listedProductViews);
-
-        $this->assertArrayHasKey(5, $listedProductViews);
-
-        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[5]);
+        $this->assertArrayHasKey($foundProductId, $listedProductViews);
+        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[$foundProductId]);
     }
 
     public function testGetFilteredPaginatedForSearch(): void
@@ -54,9 +58,7 @@ class ListedProductViewFacadeTest extends FunctionalTestCase
         $listedProductViews = $paginationResults->getResults();
 
         $this->assertArrayHasKey(1, $listedProductViews);
-
         $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[1]);
-
         $this->assertEquals('22" Sencor SLE 22F46DM4 HELLO KITTY', $listedProductViews[1]->getName());
     }
 
@@ -65,32 +67,32 @@ class ListedProductViewFacadeTest extends FunctionalTestCase
         /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacade $listedProductViewFacade */
         $listedProductViewFacade = $this->getContainer()->get(ListedProductViewFacade::class);
 
+        $firstTopProductId = 1;
+
         $listedProductViews = $listedProductViewFacade->getTop(1);
 
         $this->assertCount(1, $listedProductViews);
-
-        $this->assertArrayHasKey(1, $listedProductViews);
-
-        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[1]);
-
-        $this->assertEquals('22" Sencor SLE 22F46DM4 HELLO KITTY', $listedProductViews[1]->getName());
+        $this->assertArrayHasKey($firstTopProductId, $listedProductViews);
+        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[$firstTopProductId]);
+        $this->assertEquals('22" Sencor SLE 22F46DM4 HELLO KITTY', $listedProductViews[$firstTopProductId]->getName());
     }
 
     public function testGetFilteredPaginatedInCategory(): void
     {
+
         /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacade $listedProductViewFacade */
         $listedProductViewFacade = $this->getContainer()->get(ListedProductViewFacade::class);
         $emptyFilterData = new ProductFilterData();
 
-        $paginationResults = $listedProductViewFacade->getFilteredPaginatedInCategory(9, $emptyFilterData, ProductListOrderingConfig::ORDER_BY_NAME_ASC, 1, 5);
+        $categoryId = 9;
+        $foundProductId = 72;
+
+        $paginationResults = $listedProductViewFacade->getFilteredPaginatedInCategory($categoryId, $emptyFilterData, ProductListOrderingConfig::ORDER_BY_NAME_ASC, 1, 5);
         $listedProductViews = $paginationResults->getResults();
 
         $this->assertCount(5, $listedProductViews);
-
-        $this->assertArrayHasKey(72, $listedProductViews);
-
-        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[72]);
-
-        $this->assertEquals('100 Czech crowns ticket', $listedProductViews[72]->getName());
+        $this->assertArrayHasKey($foundProductId, $listedProductViews);
+        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[$foundProductId]);
+        $this->assertEquals('100 Czech crowns ticket', $listedProductViews[$foundProductId]->getName());
     }
 }
