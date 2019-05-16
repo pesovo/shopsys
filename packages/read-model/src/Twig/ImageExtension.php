@@ -61,7 +61,7 @@ class ImageExtension extends AbstractExtension
 
         try {
             if ($imageView instanceof ImageViewInterface) {
-                $attributes['src'] = $this->imageFacade->getImageUrlNotUsingImageOrEntity(
+                $attributes['src'] = $this->imageFacade->getImageUrlFromAttributes(
                     $this->domain->getCurrentDomainConfig(),
                     $imageView->getId(),
                     $imageView->getExtension(),
@@ -69,7 +69,7 @@ class ImageExtension extends AbstractExtension
                     $imageView->getType(),
                     $attributes['size']
                 );
-                $additionalImagesData = $this->imageFacade->getAdditionalImagesDataNotUsingImageOrEntity(
+                $additionalImagesData = $this->imageFacade->getAdditionalImagesDataFromAttributes(
                     $this->domain->getCurrentDomainConfig(),
                     $imageView->getId(),
                     $imageView->getExtension(),

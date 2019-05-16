@@ -279,7 +279,7 @@ class ImageFacade
      * @param string|null $sizeName
      * @return string
      */
-    public function getImageUrlNotUsingImageOrEntity(
+    public function getImageUrlFromAttributes(
         DomainConfig $domainConfig,
         int $id,
         string $extension,
@@ -323,7 +323,7 @@ class ImageFacade
      * @param string|null $sizeName
      * @return \Shopsys\FrameworkBundle\Component\Image\AdditionalImageData[]
      */
-    public function getAdditionalImagesDataNotUsingImageOrEntity(
+    public function getAdditionalImagesDataFromAttributes(
         DomainConfig $domainConfig,
         int $id,
         string $extension,
