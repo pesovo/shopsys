@@ -3,6 +3,7 @@
 # Lists packages that should be split
 get_all_packages() {
     echo "framework \
+        read-model \
         google-cloud-bundle \
         product-feed-zbozi \
         product-feed-google \
