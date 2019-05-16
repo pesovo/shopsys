@@ -51,9 +51,6 @@ The facade provides you the view objects for product lists that can be then used
 ### Available Twig functions
 - `image` - renders image from given `ImageView`
 
-### Example
-<!--- TODO add link to commit with readmodel usage -->
-
 ## Contributing
 Thank you for your contributions to Shopsys Read Model package.
 Together we are making Shopsys Framework better.
