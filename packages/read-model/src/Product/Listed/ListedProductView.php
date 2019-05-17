@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace Shopsys\ReadModelBundle\Product\Listed;
 
 use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPrice;
-use Shopsys\ReadModelBundle\Image\ImageViewInterface;
+use Shopsys\ReadModelBundle\Image\ImageView;
 use Shopsys\ReadModelBundle\Product\Action\ProductActionView;
-use Shopsys\ReadModelBundle\Product\Action\ProductActionViewInterface;
 
 /**
  * @experimental
  *
  * Class representing products in lists in FE templates (to avoid usage of Doctrine entities a hence achieve performance gain)
  */
-class ListedProductView implements ListedProductViewInterface
+class ListedProductView
 {
     /**
      * @var int
@@ -27,7 +26,7 @@ class ListedProductView implements ListedProductViewInterface
     protected $name;
 
     /**
-     * @var \Shopsys\ReadModelBundle\Image\ImageViewInterface|null
+     * @var \Shopsys\ReadModelBundle\Image\ImageView|null
      */
     protected $image;
 
@@ -64,8 +63,8 @@ class ListedProductView implements ListedProductViewInterface
      * @param string $availability
      * @param \Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPrice $sellingPrice
      * @param int[] $flagIds
-     * @param \Shopsys\ReadModelBundle\Product\Action\ProductActionViewInterface $action
-     * @param \Shopsys\ReadModelBundle\Image\ImageViewInterface|null $image
+     * @param \Shopsys\ReadModelBundle\Product\Action\ProductActionView $action
+     * @param \Shopsys\ReadModelBundle\Image\ImageView|null $image
      */
     public function __construct(
         int $id,
@@ -74,8 +73,8 @@ class ListedProductView implements ListedProductViewInterface
         string $availability,
         ProductPrice $sellingPrice,
         array $flagIds,
-        ProductActionViewInterface $action,
-        ?ImageViewInterface $image
+        ProductActionView $action,
+        ?ImageView $image
     ) {
         $this->validateFlagIds($flagIds);
 
@@ -106,9 +105,9 @@ class ListedProductView implements ListedProductViewInterface
     }
 
     /**
-     * @return \Shopsys\ReadModelBundle\Image\ImageViewInterface|null
+     * @return \Shopsys\ReadModelBundle\Image\ImageView|null
      */
-    public function getImage(): ?ImageViewInterface
+    public function getImage(): ?ImageView
     {
         return $this->image;
     }

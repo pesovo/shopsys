@@ -10,7 +10,7 @@ namespace Shopsys\ReadModelBundle\Product\Action;
  * Class representing products actions in lists in FE templates (to avoid usage of Doctrine entities a hence achieve performance gain)
  * @see \Shopsys\ReadModelBundle\Product\Listed\ListedProductView
  */
-class ProductActionView implements ProductActionViewInterface
+class ProductActionView
 {
     /**
      * @var int

@@ -9,7 +9,7 @@ namespace Shopsys\ReadModelBundle\Image;
  *
  * Class representing images in FE templates (to avoid usage of Doctrine entities a hence achieve performance gain)
  */
-class ImageView implements ImageViewInterface
+class ImageView
 {
     /**
      * @var int
