@@ -50,7 +50,7 @@ class HomepageController extends FrontBaseController
     public function indexAction()
     {
         $sliderItems = $this->sliderItemFacade->getAllVisibleOnCurrentDomain();
-        $topProducts = $this->listedProductsFacade->getTop();
+        $topProducts = $this->listedProductsFacade->getAllTop();
 
         return $this->render('@ShopsysShop/Front/Content/Default/index.html.twig', [
             'sliderItems' => $sliderItems,

@@ -130,7 +130,7 @@ class ProductController extends FrontBaseController
             return $this->redirectToRoute('front_product_detail', ['id' => $product->getMainVariant()->getId()]);
         }
 
-        $accessories = $this->listedProductsFacade->getAccessories($product->getId());
+        $accessories = $this->listedProductsFacade->getAllAccessories($product->getId());
         $variants = $this->productOnCurrentDomainFacade->getVariantsForProduct($product);
         $productMainCategory = $this->categoryFacade->getProductMainCategoryByDomainId($product, $this->domain->getId());
 
@@ -244,7 +244,7 @@ class ProductController extends FrontBaseController
      */
     public function searchAction(Request $request)
     {
-        $searchText = $request->query->get(self::SEARCH_TEXT_PARAMETER);
+        $searchText = $request->query->get(self::SEARCH_TEXT_PARAMETER, '');
 
         $requestPage = $request->get(self::PAGE_QUERY_PARAMETER);
         if (!$this->isRequestPageValid($requestPage)) {

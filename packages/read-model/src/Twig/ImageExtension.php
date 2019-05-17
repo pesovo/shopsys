@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Shopsys\ReadModelBundle\Twig;
 
 use Shopsys\FrameworkBundle\Twig\ImageExtension as BaseImageExtension;
-use Shopsys\ReadModelBundle\Image\ImageViewInterface;
+use Shopsys\ReadModelBundle\Image\ImageView;
 
 class ImageExtension extends BaseImageExtension
 {
     /**
-     * @param \Shopsys\FrameworkBundle\Component\Image\Image|\Shopsys\ReadModelBundle\Image\ImageViewInterface|Object|null $imageView
+     * @param \Shopsys\FrameworkBundle\Component\Image\Image|\Shopsys\ReadModelBundle\Image\ImageView|Object|null $imageView
      * @param array $attributes
      * @return string
      */
@@ -20,7 +20,7 @@ class ImageExtension extends BaseImageExtension
             return $this->getNoimageHtml($attributes);
         }
 
-        if ($imageView instanceof ImageViewInterface) {
+        if ($imageView instanceof ImageView) {
             $this->preventDefault($attributes);
 
             $entityName = $imageView->getEntityName();
