@@ -7,6 +7,8 @@ There you can find links to upgrade notes for other versions too.
 
 ## [shopsys/framework]
 ### Application
+- introduce read model for frontend product lists into your project [#1018](https://github.com/shopsys/shopsys/pull/1018)
+    - we recommend to read [the separate article](./read-model-for-product-lists.md)
 - add `TransformString::removeDriveLetterFromPath` transformer for all absolute paths that could be based with drive letter file systems and used by `local_filesystem` service ([#942](https://github.com/shopsys/shopsys/pull/942))
     - add TransformString::removeDriveLetterFromPath into `src/Shopsys/ShopBundle/DataFixtures/Demo/ImageDataFixture.php`
         ```diff
