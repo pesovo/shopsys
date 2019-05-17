@@ -2,7 +2,7 @@
 
 There is a new layer in Shopsys Framework, called [read model](/docs/model/introduction-to-read-model.md), separating the templates and application model.
 Besides better logical separation of the application, it is a first step towards usage of Elasticsearch for frontend product lists, and hence significant performance boost in the near future.
-The read model package is marked as *experimental* at the moment so there is a possibility we might introduce some BC breaking changes there. 
+The read model package is marked as *experimental* at the moment so there is a possibility we might introduce some BC breaking changes there.
 You do not need to perform the upgrade instantly, however, if you do so, you will be better prepared for the upcoming changes.
 
 <!-- TODO change link to PR to the split merge commit in project-base -->
@@ -20,12 +20,12 @@ To start using the read model, follow the instructions (you can also find inspir
                 new Shopsys\ReadModelBundle\ShopsysReadModelBundle(),
                 // ...
             ];
-    
+
             // ...
-    
+
             return $bundles;
         }
-    
+
         // ...
     }
     ```
@@ -96,4 +96,4 @@ To start using the read model, follow the instructions (you can also find inspir
         ```
 - edit your `productListMacro.html.twig` so it now works with instances of `ListedProductView` instead of `Product` entities
     - to render product flags by their ids, you need to implement new [`FlagsExtension`](/project-base/src/Shopsys/ShopBundle/Twig/FlagsExtension.php) with `renderFlagsByIds` function and add a new [`productFlags.html.twig`](/project-base/src/Shopsys/ShopBundle/Resources/views/Front/Inline/Product/productFlags.html.twig) template
-    - to render "add to cart" form, add `CartController::productActionAction` and use it instead of `addProductFormAction` 
+    - to render "add to cart" form, add `CartController::productActionAction` and use it instead of `addProductFormAction`
