@@ -67,7 +67,7 @@ class ListedProductView extends BaseListedProductView
 
 ### 2. Extend `ListedProductViewFactory` so it returns the new required data
 
-The class is responsible for creating the view object. We need to ensure that the objects is created with proper brand name. We are able to get the brand name from the product entity, so we just need to overwrite `createFromProduct()` method.   
+The class is responsible for creating the view object. We need to ensure that the objects is created with proper brand name. We are able to get the brand name from the product entity, so we just need to overwrite `createFromProduct()` method.  
 
 ```php
 declare(strict_types=1);
@@ -111,12 +111,12 @@ You need to register your new class as an alias for the one from the bundle in `
 Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFactory: '@Shopsys\ShopBundle\Model\Product\View\ListedProductViewFactory'
 ```
 
-*Note: If you want to avoid ["the n+1 problem"](https://stackoverflow.com/questions/97197/what-is-the-n1-selects-problem-in-orm-object-relational-mapping) here, 
+*Note: If you want to avoid ["the n+1 problem"](https://stackoverflow.com/questions/97197/what-is-the-n1-selects-problem-in-orm-object-relational-mapping) here,
 you can get the brand names in a batch (you can get inspired e.g. in `ProductActionViewFacade` where `ProductCollectionFacade` is used).*
 
 ### 3. Modify the frontend template for rendering product lists so it displays the new attribute
 
-All product lists are rendered using `productListMacro.html.twig`. You can modify this macro to display product brand name wherever it is suitable for you. 
+All product lists are rendered using `productListMacro.html.twig`. You can modify this macro to display product brand name wherever it is suitable for you.
 
 ```diff
 {# src/Shopsys/ShopBundle/Resources/views/Front/Content/Product/productListMacro.html.twig #}
