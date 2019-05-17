@@ -149,7 +149,7 @@ class CartController extends FrontBaseController
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      * @param string $type
-     * @deprecated This action is deprecated since 7.2.0, use ShopsysShopBundle:Front/Cart:productAction instead
+     * @deprecated This action is deprecated since 7.3.0, use ShopsysShopBundle:Front/Cart:productAction instead
      */
     public function addProductFormAction(Product $product, $type = 'normal')
     {
