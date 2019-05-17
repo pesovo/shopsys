@@ -16,10 +16,6 @@ class ImageExtensionTest extends FunctionalTestCase
 {
     public function testGetImageHtmlWithMockedImageFacade(): void
     {
-        $domain = $this->getContainer()->get(Domain::class);
-        $imageLocator = $this->getContainer()->get(ImageLocator::class);
-        $templating = $this->getContainer()->get('templating');
-
         $productId = 2;
         $entityName = 'product';
         $fileExtension = 'jpg';
@@ -33,8 +29,7 @@ class ImageExtensionTest extends FunctionalTestCase
 
         $imageView = new ImageView($productId, $fileExtension, $entityName, null);
 
-        $readModelBundleImageExtension = new ImageExtension('', $domain, $imageLocator, $imageFacadeMock, $templating);
-
+        $readModelBundleImageExtension = $this->createImageExtension('', $imageFacadeMock);
         $html = $readModelBundleImageExtension->getImageHtml($imageView);
 
         $this->assertXmlStringEqualsXmlFile(__DIR__ . '/Resources/picture.twig', $html);
@@ -44,26 +39,18 @@ class ImageExtensionTest extends FunctionalTestCase
 
     public function testGetImageHtml(): void
     {
-        $domain = $this->getContainer()->get(Domain::class);
-        $imageLocator = $this->getContainer()->get(ImageLocator::class);
-        $templating = $this->getContainer()->get('templating');
-
-        $imageFacade = $this->getContainer()->get(ImageFacade::class);
-
         $productId = 1;
         $entityName = 'product';
         $fileExtension = 'jpg';
 
         $imageView = new ImageView($productId, $fileExtension, $entityName, null);
 
-        $readModelBundleImageExtension = new ImageExtension('', $domain, $imageLocator, $imageFacade, $templating);
+        $readModelBundleImageExtension = $this->createImageExtension();
         $html = $readModelBundleImageExtension->getImageHtml($imageView);
 
-        $url = $domain->getCurrentDomainConfig()->getUrl();
-
         $expected = '<picture>';
-        $expected .= sprintf('    <source media="(min-width: 480px) and (max-width: 768px)" srcset="%s/content-test/images/product/default/additional_0_1.jpg"/>', $url);
-        $expected .= sprintf('    <img alt="" class="image-product" itemprop="image" src="%s/content-test/images/product/default/1.jpg" title=""/>', $url);
+        $expected .= sprintf('    <source media="(min-width: 480px) and (max-width: 768px)" srcset="%s/content-test/images/product/default/additional_0_1.jpg"/>', $this->getCurrentUrl());
+        $expected .= sprintf('    <img alt="" class="image-product" itemprop="image" src="%s/content-test/images/product/default/1.jpg" title=""/>', $this->getCurrentUrl());
         $expected .= '</picture>';
 
         $this->assertXmlStringEqualsXmlString($expected, $html);
@@ -73,19 +60,12 @@ class ImageExtensionTest extends FunctionalTestCase
 
     public function testGetNoImageHtml(): void
     {
-        $domain = $this->getContainer()->get(Domain::class);
-        $imageLocator = $this->getContainer()->get(ImageLocator::class);
-        $templating = $this->getContainer()->get('templating');
+        $readModelBundleImageExtension = $this->createImageExtension();
 
-        $imageFacade = $this->getContainer()->get(ImageFacade::class);
-
-        $readModelBundleImageExtension = new ImageExtension('', $domain, $imageLocator, $imageFacade, $templating);
         $html = $readModelBundleImageExtension->getImageHtml(null);
 
-        $url = $domain->getCurrentDomainConfig()->getUrl();
-
         $expected = '<picture>';
-        $expected .= sprintf('    <img alt="" class="image-noimage" title=""  itemprop="image" src="%s/noimage.png"/>', $url);
+        $expected .= sprintf('    <img alt="" class="image-noimage" title=""  itemprop="image" src="%s/noimage.png"/>', $this->getCurrentUrl());
         $expected .= '</picture>';
 
         $this->assertXmlStringEqualsXmlString($expected, $html);
@@ -97,23 +77,40 @@ class ImageExtensionTest extends FunctionalTestCase
     {
         $defaultFrontDesignImageUrlPrefix = '/assets/frontend/images/';
 
-        $domain = $this->getContainer()->get(Domain::class);
-        $imageLocator = $this->getContainer()->get(ImageLocator::class);
-        $templating = $this->getContainer()->get('templating');
-
-        $imageFacade = $this->getContainer()->get(ImageFacade::class);
-
-        $readModelBundleImageExtension = new ImageExtension($defaultFrontDesignImageUrlPrefix, $domain, $imageLocator, $imageFacade, $templating);
+        $readModelBundleImageExtension = $this->createImageExtension($defaultFrontDesignImageUrlPrefix);
         $html = $readModelBundleImageExtension->getImageHtml(null);
 
-        $url = $domain->getCurrentDomainConfig()->getUrl();
-
         $expected = '<picture>';
-        $expected .= sprintf('    <img alt="" class="image-noimage" title=""  itemprop="image" src="%s%snoimage.png"/>', $url, $defaultFrontDesignImageUrlPrefix);
+        $expected .= sprintf('    <img alt="" class="image-noimage" title=""  itemprop="image" src="%s%snoimage.png"/>', $this->getCurrentUrl(), $defaultFrontDesignImageUrlPrefix);
         $expected .= '</picture>';
 
         $this->assertXmlStringEqualsXmlString($expected, $html);
 
         libxml_clear_errors();
+    }
+
+    /**
+     * @return string
+     */
+    private function getCurrentUrl(): string
+    {
+        $domain = $this->getContainer()->get(Domain::class);
+
+        return $domain->getCurrentDomainConfig()->getUrl();
+    }
+
+    /**
+     * @param string $frontDesignImageUrlPrefix
+     * @param \Shopsys\FrameworkBundle\Component\Image\ImageFacade|null $imageFacade
+     * @return \Shopsys\ReadModelBundle\Twig\ImageExtension
+     */
+    private function createImageExtension(string $frontDesignImageUrlPrefix = '', ?ImageFacade $imageFacade = null): ImageExtension
+    {
+        $imageLocator = $this->getContainer()->get(ImageLocator::class);
+        $templating = $this->getContainer()->get('templating');
+        $domain = $this->getContainer()->get(Domain::class);
+        $imageFacade = $imageFacade ?: $this->getContainer()->get(ImageFacade::class);
+
+        return new ImageExtension($frontDesignImageUrlPrefix, $domain, $imageLocator, $imageFacade, $templating);
     }
 }
