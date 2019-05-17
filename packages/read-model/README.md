@@ -26,7 +26,7 @@ class AppKernel extends Kernel
     {
         $bundles = [
             // ...
-            new Shopsys\ProductFeed\ZboziBundle\ShopsysReadModelBundle(),
+            new Shopsys\ReadModelBundle\ShopsysReadModelBundle(),
             // ...
         ];
 
