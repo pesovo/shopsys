@@ -7,7 +7,9 @@ namespace Shopsys\ReadModelBundle\Image;
 /**
  * @experimental
  *
- * Class representing images in FE templates (to avoid usage of Doctrine entities a hence achieve performance gain)
+ * Class representing images in frontend
+ *
+ * @see https://github.com/shopsys/shopsys/blob/master/docs/model/introduction-to-read-model.md
  */
 class ImageView
 {
