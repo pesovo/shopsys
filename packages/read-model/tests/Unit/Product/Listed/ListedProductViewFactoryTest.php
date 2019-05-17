@@ -28,11 +28,20 @@ class ListedProductViewFactoryTest extends TestCase
      * @param int $priceAmount
      * @param \Shopsys\ReadModelBundle\Image\ImageView $imageView
      * @param \Shopsys\ReadModelBundle\Product\Action\ProductActionView $productActionView
-     * @param array|\Doctrine\Common\Collections\ArrayCollection $flags
+     * @param \Shopsys\FrameworkBundle\Model\Product\Flag\Flag[]|\Doctrine\Common\Collections\ArrayCollection $flags
      * @param int[] $expectedFlags
      */
-    public function testCreateFromProduct(int $id, string $productName, string $shortDescription, string $availabilityName, int $priceAmount, ImageView $imageView, ProductActionView $productActionView, $flags, $expectedFlags): void
-    {
+    public function testCreateFromProduct(
+        int $id,
+        string $productName,
+        string $shortDescription,
+        string $availabilityName,
+        int $priceAmount,
+        ImageView $imageView,
+        ProductActionView $productActionView,
+        $flags,
+        $expectedFlags
+    ): void {
         $domainMock = $this->createDomainMock();
         $productCachedAttributesFacadeMock = $this->createProductCachedAttributesFacadeMock($priceAmount);
 
@@ -42,7 +51,16 @@ class ListedProductViewFactoryTest extends TestCase
 
         $listedProductView = $listedProductViewFactory->createFromProduct($productMock, $imageView, $productActionView);
 
-        $expected = new ListedProductView($id, $productName, $shortDescription, $availabilityName, $this->createProductPrice($priceAmount), $expectedFlags, $productActionView, $imageView);
+        $expected = new ListedProductView(
+            $id,
+            $productName,
+            $shortDescription,
+            $availabilityName,
+            $this->createProductPrice($priceAmount),
+            $expectedFlags,
+            $productActionView,
+            $imageView
+        );
 
         $this->assertEquals($expected, $listedProductView);
     }
@@ -52,7 +70,7 @@ class ListedProductViewFactoryTest extends TestCase
      * @param string $name
      * @param string $shortDescription
      * @param string $availabilityName
-     * @param array|\Doctrine\Common\Collections\ArrayCollection $flags
+     * @param \Shopsys\FrameworkBundle\Model\Product\Flag\Flag[]|\Doctrine\Common\Collections\ArrayCollection $flags
      * @return \PHPUnit\Framework\MockObject\MockObject|\Shopsys\FrameworkBundle\Model\Product\Product
      */
     private function createProductMock(int $id, string $name, string $shortDescription, string $availabilityName, $flags)
