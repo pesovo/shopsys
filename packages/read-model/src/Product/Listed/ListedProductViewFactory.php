@@ -7,8 +7,8 @@ namespace Shopsys\ReadModelBundle\Product\Listed;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Product\ProductCachedAttributesFacade;
-use Shopsys\ReadModelBundle\Image\ImageViewInterface;
-use Shopsys\ReadModelBundle\Product\Action\ProductActionViewInterface;
+use Shopsys\ReadModelBundle\Image\ImageView;
+use Shopsys\ReadModelBundle\Product\Action\ProductActionView;
 
 /**
  * @experimental
@@ -39,11 +39,11 @@ class ListedProductViewFactory
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
-     * @param \Shopsys\ReadModelBundle\Image\ImageViewInterface|null $imageView
-     * @param \Shopsys\ReadModelBundle\Product\Action\ProductActionViewInterface $productActionView
-     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewInterface
+     * @param \Shopsys\ReadModelBundle\Image\ImageView|null $imageView
+     * @param \Shopsys\ReadModelBundle\Product\Action\ProductActionView $productActionView
+     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductView
      */
-    public function createFromProduct(Product $product, ?ImageViewInterface $imageView, ProductActionViewInterface $productActionView): ListedProductViewInterface
+    public function createFromProduct(Product $product, ?ImageView $imageView, ProductActionView $productActionView): ListedProductView
     {
         return new ListedProductView(
             $product->getId(),

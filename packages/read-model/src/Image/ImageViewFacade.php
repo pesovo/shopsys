@@ -35,7 +35,7 @@ class ImageViewFacade
     /**
      * @param string $entityClass
      * @param int[] $entityIds
-     * @return \Shopsys\ReadModelBundle\Image\ImageViewInterface[]|null[]
+     * @return \Shopsys\ReadModelBundle\Image\ImageView[]|null[]
      */
     public function getForEntityIds(string $entityClass, array $entityIds): array
     {
@@ -53,9 +53,9 @@ class ImageViewFacade
 
     /**
      * @param \Shopsys\FrameworkBundle\Component\Image\Image|null $image
-     * @return \Shopsys\ReadModelBundle\Image\ImageViewInterface|null
+     * @return \Shopsys\ReadModelBundle\Image\ImageView|null
      */
-    protected function createImageViewOrNullFromImage(?Image $image): ?ImageViewInterface
+    protected function createImageViewOrNullFromImage(?Image $image): ?ImageView
     {
         if ($image === null) {
             return null;

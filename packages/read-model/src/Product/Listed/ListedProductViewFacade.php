@@ -100,29 +100,40 @@ class ListedProductViewFacade implements ListedProductViewFacadeInterface
     }
 
     /**
-     * @param int|null $limit
-     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewInterface[]
+     * @param int $limit
+     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductView[]
      */
-    public function getTop(?int $limit = null): array
+    public function getTop(int $limit): array
     {
         $topProducts = $this->topProductFacade->getAllOfferedProducts(
             $this->domain->getId(),
             $this->currentCustomer->getPricingGroup()
         );
 
-        if ($limit !== null) {
-            $topProducts = array_slice($topProducts, 0, $limit);
-        }
+        $topProducts = array_slice($topProducts, 0, $limit);
+
+        return $this->createFromProducts($topProducts);
+    }
+
+    /**
+     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductView[]
+     */
+    public function getAllTop(): array
+    {
+        $topProducts = $this->topProductFacade->getAllOfferedProducts(
+            $this->domain->getId(),
+            $this->currentCustomer->getPricingGroup()
+        );
 
         return $this->createFromProducts($topProducts);
     }
 
     /**
      * @param int $productId
-     * @param int|null $limit
-     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewInterface[]
+     * @param int $limit
+     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductView[]
      */
-    public function getAccessories(int $productId, ?int $limit = null): array
+    public function getAccessories(int $productId, int $limit): array
     {
         $product = $this->productFacade->getById($productId);
 
@@ -131,6 +142,24 @@ class ListedProductViewFacade implements ListedProductViewFacadeInterface
             $this->domain->getId(),
             $this->currentCustomer->getPricingGroup(),
             $limit
+        );
+
+        return $this->createFromProducts($accessories);
+    }
+
+    /**
+     * @param int $productId
+     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductView[]
+     */
+    public function getAllAccessories(int $productId): array
+    {
+        $product = $this->productFacade->getById($productId);
+
+        $accessories = $this->productAccessoryFacade->getTopOfferedAccessories(
+            $product,
+            $this->domain->getId(),
+            $this->currentCustomer->getPricingGroup(),
+            null
         );
 
         return $this->createFromProducts($accessories);
@@ -159,7 +188,7 @@ class ListedProductViewFacade implements ListedProductViewFacadeInterface
      * @param int $limit
      * @return \Shopsys\FrameworkBundle\Component\Paginator\PaginationResult
      */
-    public function getFilteredPaginatedForSearch(?string $searchText, ProductFilterData $filterData, string $orderingModeId, int $page, int $limit): PaginationResult
+    public function getFilteredPaginatedForSearch(string $searchText, ProductFilterData $filterData, string $orderingModeId, int $page, int $limit): PaginationResult
     {
         $paginationResult = $this->productOnCurrentDomainFacade->getPaginatedProductsForSearch($searchText, $filterData, $orderingModeId, $page, $limit);
 
@@ -196,7 +225,7 @@ class ListedProductViewFacade implements ListedProductViewFacadeInterface
 
     /**
      * @param \Shopsys\ShopBundle\Model\Product\Product[] $products
-     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewInterface[]
+     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductView[]
      */
     protected function createFromProducts(array $products): array
     {

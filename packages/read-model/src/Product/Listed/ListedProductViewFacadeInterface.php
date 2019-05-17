@@ -8,17 +8,28 @@ use Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterData;
 interface ListedProductViewFacadeInterface
 {
     /**
-     * @param int|null $limit Returns all products when "null" is provided
-     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewInterface[]
+     * @param int $limit
+     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductView[]
      */
-    public function getTop(?int $limit = null): array;
+    public function getTop(int $limit): array;
+
+    /**
+     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductView[]
+     */
+    public function getAllTop(): array;
 
     /**
      * @param int $productId
-     * @param int|null $limit Returns all products when "null" is provided
+     * @param int $limit
      * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductView[]
      */
-    public function getAccessories(int $productId, ?int $limit = null): array;
+    public function getAccessories(int $productId, int $limit): array;
+
+    /**
+     * @param int $productId
+     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductView[]
+     */
+    public function getAllAccessories(int $productId): array;
 
     /**
      * @param int $categoryId
@@ -38,7 +49,7 @@ interface ListedProductViewFacadeInterface
      * @param int $limit Number of products per page (must be greater than 0)
      * @return \Shopsys\FrameworkBundle\Component\Paginator\PaginationResult
      */
-    public function getFilteredPaginatedForSearch(?string $searchText, ProductFilterData $filterData, string $orderingModeId, int $page, int $limit): PaginationResult;
+    public function getFilteredPaginatedForSearch(string $searchText, ProductFilterData $filterData, string $orderingModeId, int $page, int $limit): PaginationResult;
 
     /**
      * @param int $brandId

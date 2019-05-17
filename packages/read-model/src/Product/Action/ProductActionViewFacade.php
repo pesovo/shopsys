@@ -41,7 +41,7 @@ class ProductActionViewFacade
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product[] $products
-     * @return \Shopsys\ReadModelBundle\Product\Action\ProductActionViewInterface[]
+     * @return \Shopsys\ReadModelBundle\Product\Action\ProductActionView[]
      */
     public function getForProducts(array $products): array
     {

@@ -14,9 +14,9 @@ class ProductActionViewFactory
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      * @param string $absoluteUrl
-     * @return \Shopsys\ReadModelBundle\Product\Action\ProductActionViewInterface
+     * @return \Shopsys\ReadModelBundle\Product\Action\ProductActionView
      */
-    public function createFromProduct(Product $product, string $absoluteUrl): ProductActionViewInterface
+    public function createFromProduct(Product $product, string $absoluteUrl): ProductActionView
     {
         return new ProductActionView(
             $product->getId(),

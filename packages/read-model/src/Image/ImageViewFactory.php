@@ -13,9 +13,9 @@ class ImageViewFactory
 {
     /**
      * @param \Shopsys\FrameworkBundle\Component\Image\Image $image
-     * @return \Shopsys\ReadModelBundle\Image\ImageViewInterface
+     * @return \Shopsys\ReadModelBundle\Image\ImageView
      */
-    public function createFromImage(Image $image): ImageViewInterface
+    public function createFromImage(Image $image): ImageView
     {
         return new ImageView(
             $image->getId(),
