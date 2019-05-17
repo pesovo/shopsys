@@ -153,7 +153,7 @@ class ListedProductView
     }
 
     /**
-     * @param array $flagIds
+     * @param int[] $flagIds
      */
     protected function validateFlagIds(array $flagIds): void
     {
