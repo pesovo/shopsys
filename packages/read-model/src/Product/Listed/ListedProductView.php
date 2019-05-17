@@ -7,6 +7,7 @@ namespace Shopsys\ReadModelBundle\Product\Listed;
 use Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPrice;
 use Shopsys\ReadModelBundle\Image\ImageView;
 use Shopsys\ReadModelBundle\Product\Action\ProductActionView;
+use Webmozart\Assert\Assert;
 
 /**
  * @experimental
@@ -78,7 +79,7 @@ class ListedProductView
         ProductActionView $action,
         ?ImageView $image
     ) {
-        $this->validateFlagIds($flagIds);
+        Assert::allInteger($flagIds);
 
         $this->id = $id;
         $this->name = $name;
@@ -152,17 +153,5 @@ class ListedProductView
     public function getAction(): ProductActionView
     {
         return $this->action;
-    }
-
-    /**
-     * @param int[] $flagIds
-     */
-    protected function validateFlagIds(array $flagIds): void
-    {
-        foreach ($flagIds as $flagId) {
-            if (!is_int($flagId)) {
-                throw new \InvalidArgumentException('"$flagIds" has to be an array of integers.');
-            }
-        }
     }
 }
