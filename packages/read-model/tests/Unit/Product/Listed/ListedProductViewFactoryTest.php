@@ -40,7 +40,6 @@ class ListedProductViewFactoryTest extends TestCase
 
         $productMock = $this->createProductMock($id, $productName, $shortDescription, $availabilityName, $flags);
 
-        /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductView $listedProductView */
         $listedProductView = $listedProductViewFactory->createFromProduct($productMock, $imageView, $productActionView);
 
         $expected = new ListedProductView($id, $productName, $shortDescription, $availabilityName, $this->createProductPrice($priceAmount), $expectedFlags, $productActionView, $imageView);

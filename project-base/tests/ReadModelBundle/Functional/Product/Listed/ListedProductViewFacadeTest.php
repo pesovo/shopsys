@@ -4,13 +4,13 @@ namespace Tests\ReadModelBundle\Functional\Product\Listed;
 
 use Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterData;
 use Shopsys\FrameworkBundle\Model\Product\Listing\ProductListOrderingConfig;
+use Shopsys\ReadModelBundle\Product\Listed\ListedProductView;
 use Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacade;
-use Shopsys\ReadModelBundle\Product\Listed\ListedProductViewInterface;
 use Tests\ShopBundle\Test\FunctionalTestCase;
 
 class ListedProductViewFacadeTest extends FunctionalTestCase
 {
-    public function testGetAccessories(): void
+    public function testGetAllAccessories(): void
     {
         /** @var \Shopsys\ReadModelBundle\Product\Listed\ListedProductViewFacade $listedProductViewFacade */
         $listedProductViewFacade = $this->getContainer()->get(ListedProductViewFacade::class);
@@ -18,15 +18,15 @@ class ListedProductViewFacadeTest extends FunctionalTestCase
         $productId1 = 24;
         $productId2 = 13;
 
-        $listedProductViews = $listedProductViewFacade->getAccessories(1);
+        $listedProductViews = $listedProductViewFacade->getAllAccessories(1);
 
         $this->assertCount(2, $listedProductViews);
 
         $this->assertArrayHasKey($productId1, $listedProductViews);
         $this->assertArrayHasKey($productId2, $listedProductViews);
 
-        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[$productId1]);
-        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[$productId2]);
+        $this->assertInstanceOf(ListedProductView::class, $listedProductViews[$productId1]);
+        $this->assertInstanceOf(ListedProductView::class, $listedProductViews[$productId2]);
 
         $this->assertEquals('Kabel HDMI A - HDMI A M/M 2m gold-plated connectors High Speed HD', $listedProductViews[$productId1]->getName());
         $this->assertEquals('Defender 2.0 SPK-480', $listedProductViews[$productId2]->getName());
@@ -45,7 +45,7 @@ class ListedProductViewFacadeTest extends FunctionalTestCase
 
         $this->assertCount(1, $listedProductViews);
         $this->assertArrayHasKey($foundProductId, $listedProductViews);
-        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[$foundProductId]);
+        $this->assertInstanceOf(ListedProductView::class, $listedProductViews[$foundProductId]);
     }
 
     public function testGetFilteredPaginatedForSearch(): void
@@ -58,7 +58,7 @@ class ListedProductViewFacadeTest extends FunctionalTestCase
         $listedProductViews = $paginationResults->getResults();
 
         $this->assertArrayHasKey(1, $listedProductViews);
-        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[1]);
+        $this->assertInstanceOf(ListedProductView::class, $listedProductViews[1]);
         $this->assertEquals('22" Sencor SLE 22F46DM4 HELLO KITTY', $listedProductViews[1]->getName());
     }
 
@@ -73,7 +73,7 @@ class ListedProductViewFacadeTest extends FunctionalTestCase
 
         $this->assertCount(1, $listedProductViews);
         $this->assertArrayHasKey($firstTopProductId, $listedProductViews);
-        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[$firstTopProductId]);
+        $this->assertInstanceOf(ListedProductView::class, $listedProductViews[$firstTopProductId]);
         $this->assertEquals('22" Sencor SLE 22F46DM4 HELLO KITTY', $listedProductViews[$firstTopProductId]->getName());
     }
 
@@ -92,7 +92,7 @@ class ListedProductViewFacadeTest extends FunctionalTestCase
 
         $this->assertCount(5, $listedProductViews);
         $this->assertArrayHasKey($foundProductId, $listedProductViews);
-        $this->assertInstanceOf(ListedProductViewInterface::class, $listedProductViews[$foundProductId]);
+        $this->assertInstanceOf(ListedProductView::class, $listedProductViews[$foundProductId]);
         $this->assertEquals('100 Czech crowns ticket', $listedProductViews[$foundProductId]->getName());
     }
 }
