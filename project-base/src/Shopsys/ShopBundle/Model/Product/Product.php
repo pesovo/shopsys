@@ -15,6 +15,13 @@ use Shopsys\FrameworkBundle\Model\Product\ProductData as BaseProductData;
 class Product extends BaseProduct
 {
     /**
+     * @var string|null
+     *
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $text2;
+
+    /**
      * @param \Shopsys\ShopBundle\Model\Product\ProductData $productData
      * @param \Shopsys\FrameworkBundle\Model\Product\ProductCategoryDomainFactoryInterface $productCategoryDomainFactory
      * @param \Shopsys\ShopBundle\Model\Product\Product[]|null $variants
@@ -35,5 +42,21 @@ class Product extends BaseProduct
         ProductPriceRecalculationScheduler $productPriceRecalculationScheduler
     ) {
         parent::edit($productCategoryDomainFactory, $productData, $productPriceRecalculationScheduler);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getText2(): ?string
+    {
+        return $this->text2;
+    }
+
+    /**
+     * @param string|null $text2
+     */
+    public function setText2(?string $text2): void
+    {
+        $this->text2 = $text2;
     }
 }
