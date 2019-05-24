@@ -51,6 +51,7 @@ class AppKernel extends Kernel
             new Shopsys\ReadModelBundle\ShopsysReadModelBundle(), // has to be loaded after ShopsysFrameworkBundle because it overrides Twig `image` function
             new Shopsys\ShopBundle\ShopsysShopBundle(), // must be loaded as last, because translations must overwrite other bundles
             new FOS\RestBundle\FOSRestBundle(),
+            new Trikoder\Bundle\OAuth2Bundle\TrikoderOAuth2Bundle(),
         ];
 
         if ($this->getEnvironment() === EnvironmentType::DEVELOPMENT) {
