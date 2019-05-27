@@ -1,0 +1,8 @@
+services:
+    Shopsys\ApiBundle\Controller\:
+        resource: '../../Controller/'
+        public: true
+        autowire: true
+        tags: ['controller.service_arguments']
+
+    Shopsys\ApiBundle\Component\HeaderLinks\HeaderLinksTransformer: ~
