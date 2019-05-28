@@ -29,6 +29,7 @@
         "symfony/config": "^3.4",
         "symfony/dependency-injection": "^3.4",
         "symfony/http-foundation": "^3.4",
-        "symfony/http-kernel": "^3.4"
+        "symfony/http-kernel": "^3.4",
+        "webmozart/assert": "^1.4"
     }
 }
