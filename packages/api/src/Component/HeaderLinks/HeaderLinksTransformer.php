@@ -19,8 +19,8 @@ class HeaderLinksTransformer
         $links = new HeaderLinks();
 
         if (!$paginationResult->isFirst()) {
-            $firstUrl = $this->changeParameter($baseUrl, 'page', '1');
-            $previousUrl = $this->changeParameter($baseUrl, 'page', (string)$paginationResult->getPrevious());
+            $firstUrl = $this->createUrlWithParameter($baseUrl, 'page', '1');
+            $previousUrl = $this->createUrlWithParameter($baseUrl, 'page', (string)$paginationResult->getPrevious());
 
             $links = $links
                 ->add($firstUrl, 'first')
@@ -28,8 +28,8 @@ class HeaderLinksTransformer
         }
 
         if (!$paginationResult->isLast()) {
-            $nextUrl = $this->changeParameter($baseUrl, 'page', (string)$paginationResult->getNext());
-            $lastUrl = $this->changeParameter($baseUrl, 'page', (string)$paginationResult->getPageCount());
+            $nextUrl = $this->createUrlWithParameter($baseUrl, 'page', (string)$paginationResult->getNext());
+            $lastUrl = $this->createUrlWithParameter($baseUrl, 'page', (string)$paginationResult->getPageCount());
 
             $links = $links
                 ->add($nextUrl, 'next')
@@ -45,7 +45,7 @@ class HeaderLinksTransformer
      * @param string $value
      * @return string
      */
-    protected function changeParameter(string $baseUrl, string $parameter, string $value): string
+    protected function createUrlWithParameter(string $baseUrl, string $parameter, string $value): string
     {
         return Request::create($baseUrl, 'GET', [$parameter => $value])->getUri();
     }
