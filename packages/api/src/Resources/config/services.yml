@@ -1,7 +1,7 @@
 services:
     Shopsys\ApiBundle\Controller\:
         resource: '../../Controller/'
-        public: true
+        public: false
         autowire: true
         tags: ['controller.service_arguments']
 
