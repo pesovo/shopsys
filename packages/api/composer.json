@@ -19,9 +19,17 @@
         "php": "^7.2",
         "ext-pdo": "*",
         "ext-json": "*",
+        "doctrine/dbal": "^2.7",
         "friendsofsymfony/rest-bundle": "^2.5",
         "jms/serializer-bundle": "^2.4",
         "ramsey/uuid": "^3.8",
-        "shopsys/framework": "dev-master"
+        "shopsys/form-types-bundle": "dev-master",
+        "shopsys/framework": "dev-master",
+        "shopsys/migrations": "dev-master",
+        "shopsys/plugin-interface": "dev-master",
+        "symfony/config": "^3.4",
+        "symfony/dependency-injection": "^3.4",
+        "symfony/http-foundation": "^3.4",
+        "symfony/http-kernel": "^3.4"
     }
 }
