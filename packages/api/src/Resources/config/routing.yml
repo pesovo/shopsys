@@ -1,4 +1,4 @@
-shopsys_api:
+shopsys_api_v1:
     resource: "@ShopsysApiBundle/Controller/V1"
     prefix: /api/v1
     type: annotation
