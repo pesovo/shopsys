@@ -28,7 +28,7 @@ class ProductController extends AbstractFOSRestController
     protected $productFacade;
 
     /**
-     * @var \Shopsys\ApiBundle\Controller\V1\ApiProductTranslator
+     * @var \Shopsys\ApiBundle\Controller\V1\ApiProductTransformer
      */
     protected $productTransformer;
 
@@ -44,10 +44,10 @@ class ProductController extends AbstractFOSRestController
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\ProductFacade $productFacade
-     * @param \Shopsys\ApiBundle\Controller\V1\ApiProductTranslator $productTransformer
+     * @param \Shopsys\ApiBundle\Controller\V1\ApiProductTransformer $productTransformer
      * @param \Shopsys\ApiBundle\Component\HeaderLinks\HeaderLinksTransformer $linksTransformer
      */
-    public function __construct(ProductFacade $productFacade, ApiProductTranslator $productTransformer, HeaderLinksTransformer $linksTransformer)
+    public function __construct(ProductFacade $productFacade, ApiProductTransformer $productTransformer, HeaderLinksTransformer $linksTransformer)
     {
         $this->productFacade = $productFacade;
         $this->productTransformer = $productTransformer;
@@ -64,7 +64,7 @@ class ProductController extends AbstractFOSRestController
     {
         $this->validateUuid($uuid);
         $product = $this->productFacade->getByUuid($uuid);
-        $productArray = $this->productTransformer->translate($product);
+        $productArray = $this->productTransformer->transform($product);
 
         return $this->handleView(View::create($productArray, 200));
     }
@@ -95,7 +95,7 @@ class ProductController extends AbstractFOSRestController
         $productsResult = $this->productFacade->findByQuery($query);
 
         $productsArray = array_map(function (Product $product) {
-            return $this->productTransformer->translate($product);
+            return $this->productTransformer->transform($product);
         }, $productsResult->getResults());
 
         $links = $this->linksTransformer->fromPaginationResult($productsResult, $request->getUri());

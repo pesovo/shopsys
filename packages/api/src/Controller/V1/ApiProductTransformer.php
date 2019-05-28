@@ -6,7 +6,7 @@ use DateTimeInterface;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 
-class ApiProductTranslator
+class ApiProductTransformer
 {
     /**
      * @var \Shopsys\FrameworkBundle\Component\Domain\Domain
@@ -25,11 +25,11 @@ class ApiProductTranslator
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      * @return array
      */
-    public function translate(Product $product): array
+    public function transform(Product $product): array
     {
-        $names = $this->translateNames($product);
-        $shortDescriptions = $this->translateShortDescriptions($product);
-        $longDescriptions = $this->translateLongDescriptions($product);
+        $names = $this->transformNames($product);
+        $shortDescriptions = $this->transformShortDescriptions($product);
+        $longDescriptions = $this->transformLongDescriptions($product);
 
         return [
             'uuid' => $product->getUuid(),
@@ -50,7 +50,7 @@ class ApiProductTranslator
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      * @return string[]
      */
-    protected function translateNames(Product $product): array
+    protected function transformNames(Product $product): array
     {
         $result = [];
         foreach ($this->domain->getAllLocales() as $locale) {
@@ -63,7 +63,7 @@ class ApiProductTranslator
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      * @return string[]
      */
-    protected function translateShortDescriptions(Product $product): array
+    protected function transformShortDescriptions(Product $product): array
     {
         $result = [];
         foreach ($this->domain->getAllIds() as $domainId) {
@@ -76,7 +76,7 @@ class ApiProductTranslator
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
      * @return string[]
      */
-    protected function translateLongDescriptions(Product $product): array
+    protected function transformLongDescriptions(Product $product): array
     {
         $result = [];
         foreach ($this->domain->getAllIds() as $domainId) {
