@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shopsys\ApiBundle\Controller\V1;
 
 use FOS\RestBundle\Controller\AbstractFOSRestController;
-
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
