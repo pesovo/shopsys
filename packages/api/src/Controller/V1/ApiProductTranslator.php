@@ -48,7 +48,7 @@ class ApiProductTranslator
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
-     * @return array
+     * @return string[]
      */
     protected function translateNames(Product $product): array
     {
@@ -61,7 +61,7 @@ class ApiProductTranslator
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
-     * @return array
+     * @return string[]
      */
     protected function translateShortDescriptions(Product $product): array
     {
@@ -74,7 +74,7 @@ class ApiProductTranslator
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Product $product
-     * @return array
+     * @return string[]
      */
     protected function translateLongDescriptions(Product $product): array
     {
