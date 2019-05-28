@@ -9,14 +9,13 @@ use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\View\View;
-use InvalidArgumentException;
-use Ramsey\Uuid\Uuid;
 use Shopsys\ApiBundle\Component\HeaderLinks\HeaderLinksTransformer;
 use Shopsys\FrameworkBundle\Model\Product\Product;
 use Shopsys\FrameworkBundle\Model\Product\ProductFacade;
 use Shopsys\FrameworkBundle\Model\Product\ProductQuery;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Webmozart\Assert\Assert;
 
 /**
  * @experimental
@@ -63,7 +62,7 @@ class ProductController extends AbstractFOSRestController
      */
     public function getProductAction(string $uuid): Response
     {
-        $this->validateUuid($uuid);
+        Assert::uuid($uuid);
         $product = $this->productFacade->getByUuid($uuid);
         $productArray = $this->productTransformer->transform($product);
 
@@ -76,7 +75,7 @@ class ProductController extends AbstractFOSRestController
      * Retrieves an multiple Product resources
      * @Get("/products")
      * @QueryParam(name="page", requirements="\d+", default=1)
-     * @QueryParam(name="uuids", map=true, requirements="[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}", allowBlank=false)
+     * @QueryParam(name="uuids", map=true, allowBlank=false)
      * @param \FOS\RestBundle\Request\ParamFetcher $paramFetcher
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Component\HttpFoundation\Response
@@ -89,9 +88,7 @@ class ProductController extends AbstractFOSRestController
 
         $filterUuids = $paramFetcher->get('uuids');
         if (is_array($filterUuids)) {
-            foreach ($filterUuids as $uuid) {
-                $this->validateUuid($uuid);
-            }
+            Assert::allUuid($filterUuids);
             $query = $query->withUuids($filterUuids);
         }
 
@@ -106,15 +103,5 @@ class ProductController extends AbstractFOSRestController
         $view = View::create($productsArray, Response::HTTP_OK, ['Link' => $links->format()]);
 
         return $this->handleView($view);
-    }
-
-    /**
-     * @param string $uuid
-     */
-    protected function validateUuid(string $uuid): void
-    {
-        if (!Uuid::isValid($uuid)) {
-            throw new InvalidArgumentException('Input UUID is not valid');
-        }
     }
 }
