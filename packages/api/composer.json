@@ -22,6 +22,6 @@
         "friendsofsymfony/rest-bundle": "^2.5",
         "jms/serializer-bundle": "^2.4",
         "ramsey/uuid": "^3.8",
-        "shopsys/framework": "^dev-master"
+        "shopsys/framework": "dev-master"
     }
 }
