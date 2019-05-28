@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shopsys\ApiBundle\Controller\V1;
 
 use DateTimeInterface;
