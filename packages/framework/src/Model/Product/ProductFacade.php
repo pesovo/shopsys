@@ -217,9 +217,9 @@ class ProductFacade
      * @param \Shopsys\FrameworkBundle\Model\Product\ProductQuery $query
      * @return \Shopsys\FrameworkBundle\Component\Paginator\PaginationResult
      */
-    public function findByQuery(ProductQuery $query): PaginationResult
+    public function findByProductQuery(ProductQuery $query): PaginationResult
     {
-        return $this->productRepository->findByQuery($query);
+        return $this->productRepository->findByProductQuery($query);
     }
 
     /**

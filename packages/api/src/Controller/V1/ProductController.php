@@ -92,7 +92,7 @@ class ProductController extends AbstractFOSRestController
             $query = $query->withUuids($filterUuids);
         }
 
-        $productsResult = $this->productFacade->findByQuery($query);
+        $productsResult = $this->productFacade->findByProductQuery($query);
 
         $productsArray = array_map(function (Product $product) {
             return $this->productTransformer->transform($product);

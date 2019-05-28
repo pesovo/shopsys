@@ -774,7 +774,7 @@ class ProductRepository
      * @param \Shopsys\FrameworkBundle\Model\Product\ProductQuery $query
      * @return \Shopsys\FrameworkBundle\Component\Paginator\PaginationResult
      */
-    public function findByQuery(ProductQuery $query): PaginationResult
+    public function findByProductQuery(ProductQuery $query): PaginationResult
     {
         $queryBuilder = $this->getProductRepository()->createQueryBuilder('p');
         $queryBuilder->orderBy('p.id');
