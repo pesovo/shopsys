@@ -9,7 +9,7 @@ class HeaderLinks
     /**
      * @var array[] in format [link, rel]
      */
-    private $links = [];
+    protected $links = [];
 
     /**
      * @param string $link
