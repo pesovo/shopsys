@@ -67,7 +67,9 @@ class ProductController extends AbstractFOSRestController
         $product = $this->productFacade->getByUuid($uuid);
         $productArray = $this->productTransformer->transform($product);
 
-        return $this->handleView(View::create($productArray, 200));
+        $view = View::create($productArray, 200);
+
+        return $this->handleView($view);
     }
 
     /**
