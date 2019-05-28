@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shopsys\ApiBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
