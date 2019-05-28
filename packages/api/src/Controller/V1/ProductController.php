@@ -67,7 +67,7 @@ class ProductController extends AbstractFOSRestController
         $product = $this->productFacade->getByUuid($uuid);
         $productArray = $this->productTransformer->transform($product);
 
-        $view = View::create($productArray, 200);
+        $view = View::create($productArray, Response::HTTP_OK);
 
         return $this->handleView($view);
     }
@@ -103,7 +103,7 @@ class ProductController extends AbstractFOSRestController
 
         $links = $this->linksTransformer->fromPaginationResult($productsResult, $request->getUri());
 
-        $view = View::create($productsArray, 200, ['Link' => $links->format()]);
+        $view = View::create($productsArray, Response::HTTP_OK, ['Link' => $links->format()]);
 
         return $this->handleView($view);
     }
