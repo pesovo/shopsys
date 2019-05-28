@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shopsys\ApiBundle\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
