@@ -25,17 +25,17 @@ class ProductController extends AbstractFOSRestController
     /**
      * @var \Shopsys\FrameworkBundle\Model\Product\ProductFacade
      */
-    private $productFacade;
+    protected $productFacade;
 
     /**
      * @var \Shopsys\ApiBundle\Controller\V1\ApiProductTranslator
      */
-    private $productTransformer;
+    protected $productTransformer;
 
     /**
      * @var \Shopsys\ApiBundle\Component\HeaderLinks\HeaderLinksTransformer
      */
-    private $linksTransformer;
+    protected $linksTransformer;
 
     /**
      * @var int
