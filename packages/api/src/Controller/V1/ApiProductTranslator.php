@@ -95,6 +95,6 @@ class ApiProductTranslator
             return null;
         }
 
-        return $dateTime->format(DateTimeInterface::ISO8601);
+        return $dateTime->format(DateTimeInterface::ATOM);
     }
 }
