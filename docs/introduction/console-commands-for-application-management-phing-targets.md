@@ -107,6 +107,13 @@ The variable itself contains current datetime in PHP format `YmdHis` (16 digits,
 
 The variable is generated to file `app/config/parameters_version.yml` and this file is excluded from git.
 
+#### generate-api-oauth-keys
+
+Generates oauth private and public key to directory `app/config/packages/oauth2/`, be careful never commit private keys.
+Generates also encryption key to file `app/config/packages/oauth2/parameters_oauth.yml`.
+
+These keys are used by API oauth.
+
 ### Database
 
 #### db-migrations-generate
