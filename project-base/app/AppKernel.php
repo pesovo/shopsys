@@ -107,6 +107,10 @@ class AppKernel extends Kernel
             $configs[] = __DIR__ . '/config/parameters_version.yml';
         }
 
+        if (file_exists(__DIR__ . '/config/packages/oauth2/parameters_oauth.yml')) {
+            $configs[] = __DIR__ . '/config/packages/oauth2/parameters_oauth.yml';
+        }
+
         return $configs;
     }
 

@@ -17,11 +17,13 @@
     <property name="path.env.test" value="${path.root}/TEST"/>
     <property name="path.eslint.executable" value="${path.root}/node_modules/.bin/eslint"/>
     <property name="path.framework" value="${path.vendor}/shopsys/framework"/>
+    <property name="path.generate-defuse-key.executable" value="${path.bin}/generate-defuse-key"/>
     <property name="path.grunt.executable" value="node_modules/.bin/grunt"/>
     <property name="path.npm.executable" value="npm"/>
     <property name="path.pg_dump.executable" value="pg_dump"/>
     <property name="path.php.executable" value="php"/>
     <property name="path.ecs.executable" value="${path.bin}/ecs"/>
+    <property name="path.openssl.executable" value="openssl"/>
     <property name="path.phplint.executable" value="${path.bin}/parallel-lint"/>
     <property name="path.phpstan.config" value="${path.root}/phpstan.neon"/>
     <property name="path.phpstan.executable" value="${path.bin}/phpstan"/>
@@ -367,6 +369,33 @@
             <filterchain>
                 <replacetokens begintoken="%%" endtoken="%%">
                     <token key="version" value="${version}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+    </target>
+
+    <target name="generate-api-oauth-keys">
+        <exec executable="${path.openssl.executable}">
+            <arg value="genrsa" />
+            <arg value="-out" />
+            <arg value="${path.app}/config/packages/oauth2/private.key" />
+            <arg value="2048" />
+        </exec>
+        <exec executable="${path.openssl.executable}">
+            <arg value="rsa" />
+            <arg value="-in" />
+            <arg value="${path.app}/config/packages/oauth2/private.key" />
+            <arg value="-pubout" />
+            <arg value="-out" />
+            <arg value="${path.app}/config/packages/oauth2/public.key" />
+        </exec>
+
+        <exec executable="${path.generate-defuse-key.executable}" checkreturn="true" outputProperty="encryption_key" error="/dev/null">
+        </exec>
+        <copy file="${path.app}/config/packages/oauth2/parameters_oauth.yml.dist" tofile="${path.app}/config/packages/oauth2/parameters_oauth.yml" overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="%%" endtoken="%%">
+                    <token key="encryption_key" value="${encryption_key}" />
                 </replacetokens>
             </filterchain>
         </copy>
