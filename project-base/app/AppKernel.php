@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new FM\ElfinderBundle\FMElfinderBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
             new Fp\JsFormValidatorBundle\FpJsFormValidatorBundle(),
             new Intaro\PostgresSearchBundle\IntaroPostgresSearchBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
@@ -50,7 +51,6 @@ class AppKernel extends Kernel
             new Shopsys\FrameworkBundle\ShopsysFrameworkBundle(),
             new Shopsys\ReadModelBundle\ShopsysReadModelBundle(), // has to be loaded after ShopsysFrameworkBundle because it overrides Twig `image` function
             new Shopsys\ShopBundle\ShopsysShopBundle(), // must be loaded as last, because translations must overwrite other bundles
-            new FOS\RestBundle\FOSRestBundle(),
             new Trikoder\Bundle\OAuth2Bundle\TrikoderOAuth2Bundle(),
         ];
 
