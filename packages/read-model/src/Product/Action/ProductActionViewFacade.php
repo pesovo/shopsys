@@ -59,4 +59,13 @@ class ProductActionViewFacade
 
         return $productActionViews;
     }
+
+    /**
+     * @param array $hit
+     * @return \Shopsys\ReadModelBundle\Product\Action\ProductActionView
+     */
+    public function getForHit(array $hit): ProductActionView
+    {
+        return $this->productActionViewFactory->createFromHit($hit);
+    }
 }

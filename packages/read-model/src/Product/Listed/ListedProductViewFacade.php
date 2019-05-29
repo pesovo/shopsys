@@ -177,7 +177,7 @@ class ListedProductViewFacade implements ListedProductViewFacadeInterface
     {
         $paginationResult = $this->productOnCurrentDomainFacade->getPaginatedProductsInCategory($filterData, $orderingModeId, $page, $limit, $categoryId);
 
-        return $this->createPaginationResultWithData($paginationResult);
+        return $this->createPaginationResultWithHits($paginationResult);
     }
 
     /**
@@ -221,6 +221,42 @@ class ListedProductViewFacade implements ListedProductViewFacadeInterface
             $paginationResult->getTotalCount(),
             $this->createFromProducts($paginationResult->getResults())
         );
+    }
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Component\Paginator\PaginationResult $paginationResult
+     * @return \Shopsys\FrameworkBundle\Component\Paginator\PaginationResult
+     */
+    protected function createPaginationResultWithHits(PaginationResult $paginationResult): PaginationResult
+    {
+        return new PaginationResult(
+            $paginationResult->getPage(),
+            $paginationResult->getPageSize(),
+            $paginationResult->getTotalCount(),
+            $this->createFromHits($paginationResult->getResults())
+        );
+    }
+
+    /**
+     * @param array $hits
+     * @return \Shopsys\ReadModelBundle\Product\Listed\ListedProductView[]
+     */
+    protected function createFromHits(array $hits): array
+    {
+        $imageViews = $this->imageViewFacade->getForEntityIds(Product::class, array_map('intval', array_column($hits, '_id')));
+
+        $listedProductViews = [];
+        foreach ($hits as $hit) {
+            $productId = (int)$hit['_id'];
+            $listedProductViews[$productId] = $this->listedProductViewFactory->createFromHit(
+                $hit,
+                $imageViews[$productId],
+                $this->productActionViewFacade->getForHit($hit),
+                $this->currentCustomer->getPricingGroup()
+            );
+        }
+
+        return $listedProductViews;
     }
 
     /**
