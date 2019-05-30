@@ -171,4 +171,4 @@ To start using the read model, follow the instructions (you can also find inspir
         +           'visibility',
                 ]);
             }
-        ``` 
+        ```
