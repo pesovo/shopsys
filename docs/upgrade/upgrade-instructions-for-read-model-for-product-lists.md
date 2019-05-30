@@ -151,3 +151,24 @@ To start using the read model, follow the instructions (you can also find inspir
         - {% endif %}
         + {{ render(controller('ShopsysShopBundle:Front/Cart:productAction', { productActionView: productView.action } )) }}
         ```
+    - update ElasticSearch structure in `src/Shopsys/ShopBundle/Resources/definition/product/*.json` according to [this commit]()
+    - fix test `ProductSearchExportRepositoryTest::getExpectedStructureForRepository()` by adding new ElasticSearch fields to it
+        ```diff
+            if ($productSearchExportRepository instanceof ProductSearchExportWithFilterRepository) {
+                $structure = \array_merge($structure, [
+        +           'availability',
+                    'brand',
+                    'flags',
+                    'categories',
+        +           'detail_url',
+                    'in_stock',
+                    'prices',
+                    'parameters',
+                    'ordering_priority',
+                    'calculated_selling_denied',
+        +           'selling_denied',
+        +           'main_variant',
+        +           'visibility',
+                ]);
+            }
+        ``` 

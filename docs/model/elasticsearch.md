@@ -41,13 +41,18 @@ Following product attributes are exported into Elasticsearch (i.e. the search or
 * in_stock (true/false value whether the product is in stock)
 * parameters (pairs of parameter IDs and parameter value IDs)
 * ordering_priority (priority number)
-* calculated_selling_denied (true/false value whether the product is already sold out)
+* calculated_selling_denied (calculated true/false value whether the product is already sold out)
+* selling_denied (true/false value whether the product can be sold)
+* availability (translation of products availability)
+* main_variant (true/false value whether the product is main variant or not. You can find more about behaviour of variants [here](/docs/functional/behavior-of-product-variants.md))
+* detail_url (url to page with products detail)
+* visibility (all visibilities for all pricing groups and domains)
 
 Data of all products are exported into Elasticsearch by CRON module (`ProductSearchExportCronModule.php`) once an hour.
 Alternatively, you can force the export manually using `product-search-export-products` Phing target.
 
 ## Use of Elasticsearch
-Elasticsearch is used for search and filter products on frontend.
+Elasticsearch is used for search and filter products on frontend and for getting data about products to [read model](/docs/model/introduction-to-read-model.md).
 You can learn more about [Product searching](/docs/model/front-end-product-searching.md) and [Product filtering](/docs/model/front-end-product-filtering.md) in particular articles.
 
 ## Where does Elasticsearch run?
