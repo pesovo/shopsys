@@ -69,6 +69,36 @@ There you can find links to upgrade notes for other versions too.
             - use Ivory\CKEditorBundle\Form\Type\CKEditorType;
             + use FOS\CKEditorBundle\Form\Type\CKEditorType;
             ```
+### Configuration
+- simplify local configuration ([#1004](https://github.com/shopsys/shopsys/pull/1004))
+    - update `app/config/packages/shopsys_shop.yml`
+        ```diff
+        router:
+        -   locale_router_filepaths:
+        -       cs: '%shopsys.root_dir%/src/Shopsys/ShopBundle/Resources/config/routing_front_cs.yml'
+        -       en: '%shopsys.root_dir%/src/Shopsys/ShopBundle/Resources/config/routing_front_en.yml'
+        +   locale_router_filepath_mask: '%shopsys.root_dir%/src/Shopsys/ShopBundle/Resources/config/routing_front_*.yml'
+        ```
+    - update `app/config/packages/shopsys_shop.yml`
+        ```diff
+        ->arrayNode('router')
+            ->children()
+        -       ->arrayNode('locale_router_filepaths')
+        -           ->defaultValue([])
+        -           ->prototype('scalar')
+        +       ->scalarNode('locale_router_filepath_mask')
+        +       ->end()
+        +       ->scalarNode('friendly_url_router_filepath')
+                ->end()
+        -   ->end()
+        -   ->scalarNode('friendly_url_router_filepath')
+            ->end()
+        ```
+    - update `src/Shopsys/ShopBundle/DependencyInjection/ShopsysShopExtension.php`
+        ```diff
+        - $container->setParameter('shopsys.router.locale_router_filepaths', $config['router']['locale_router_filepaths']);
+        + $container->setParameter('shopsys.router.locale_router_filepath_mask', $config['router']['locale_router_filepath_mask']);
+        ```
 
 ### Tools
 - improve `build-dev.xml` to use test prefix for elasticsearch in tests ([#933](https://github.com/shopsys/shopsys/pull/933))

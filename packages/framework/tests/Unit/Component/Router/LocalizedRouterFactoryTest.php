@@ -17,7 +17,7 @@ class LocalizedRouterFactoryTest extends TestCase
         $delegatingLoaderMock = $this->createMock(DelegatingLoader::class);
         $context = new RequestContext();
 
-        $localizedRouterFactory = new LocalizedRouterFactory(self::LOCALE_ROUTERS_CONFIGURATION_MASK, $delegatingLoaderMock);
+        $localizedRouterFactory = new LocalizedRouterFactory(static::LOCALE_ROUTERS_CONFIGURATION_MASK, $delegatingLoaderMock);
         $this->expectException(\Shopsys\FrameworkBundle\Component\Router\Exception\LocalizedRoutingConfigFileNotFoundException::class);
         $localizedRouterFactory->getRouter('ru', $context);
     }
@@ -30,7 +30,7 @@ class LocalizedRouterFactoryTest extends TestCase
         $context2 = new RequestContext();
         $context2->setHost('host2');
 
-        $localizedRouterFactory = new LocalizedRouterFactory(self::LOCALE_ROUTERS_CONFIGURATION_MASK, $delegatingLoaderMock);
+        $localizedRouterFactory = new LocalizedRouterFactory(static::LOCALE_ROUTERS_CONFIGURATION_MASK, $delegatingLoaderMock);
 
         $router1 = $localizedRouterFactory->getRouter('en', $context1);
         $router2 = $localizedRouterFactory->getRouter('en', $context2);
